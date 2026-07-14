@@ -1,7 +1,7 @@
 # RFA — Regenerative Fashion Archive
 ### Digital Research Room · Connected Visualiser · SDG Particle Sea
 
-A live interactive research visualisation system built by [BRGB Studio](https://bigredglassesboy.com) for the University of East London. Research projects are pulled from a CKAN open data backend, colour-coded by UN Sustainable Development Goal, and rendered as a navigable particle sea — in browser and in Unreal Engine 5.
+A live interactive research visualisation system built by [BRGB Studio](https://brgb.uk) for the University of East London. Research projects are pulled from a CKAN open data backend, colour-coded by UN Sustainable Development Goal, and rendered as a navigable particle sea — in browser and in Unreal Engine 5.
 
 ---
 
@@ -15,7 +15,7 @@ A live interactive research visualisation system built by [BRGB Studio](https://
 
 ---
 
-## SDG Research Room `/room/`
+## SDG Research Room `/`
 
 A full-screen interactive particle sea where every dot is a fashion research project tagged with one or more UN SDGs.
 
