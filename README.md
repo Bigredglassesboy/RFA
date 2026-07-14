@@ -1,7 +1,7 @@
 # RFA — Regenerative Fashion Archive
 ### Digital Research Room · Connected Visualiser · SDG Particle Sea
 
-A live interactive research visualisation system built by [BRGB Studio](https://brgb.uk) for the University of East London. Research projects are pulled from a CKAN open data backend, colour-coded by UN Sustainable Development Goal, and rendered as a navigable particle sea — in browser and in Unreal Engine 5.
+A live interactive research visualisation system built by [BRGB Studio](https://bigredglassesboy.com) for the University of East London. Research projects are pulled from a CKAN open data backend, colour-coded by UN Sustainable Development Goal, and rendered as a navigable particle sea — in browser and in Unreal Engine 5.
 
 ---
 
@@ -9,8 +9,8 @@ A live interactive research visualisation system built by [BRGB Studio](https://
 
 | URL | What it is |
 |-----|-----------|
-| [`/`](https://bigredglassesboy.github.io/RFA/) | Homepage |
-| [`/room/`](https://bigredglassesboy.github.io/RFA/room/) | SDG Research Room — interactive particle sea with webcam body tracking |
+| [`/`](https://bigredglassesboy.github.io/RFA/) | SDG Research Room — interactive particle sea, webcam body tracking, SDG filters |
+| [`/room/`](https://bigredglassesboy.github.io/RFA/room/) | Physical Room Setup — projector layout, Kinect positioning, installation guide |
 | [`/how/`](https://bigredglassesboy.github.io/RFA/how/) | Connected Visualiser — system architecture diagram |
 
 ---
@@ -109,4 +109,4 @@ All 17 goal colours are sourced from the official [UN SDG Brand Guidelines 2023]
 ## Project
 
 Built by **Pat Quinnell / BRGB Studio** · University of East London  
-[BRGB.uk](https://brgb.uk) · [@Bigredglassesboy](https://instagram.com/bigredglassesboy)
+[bigredglassesboy.com](https://bigredglassesboy.com) · [@Bigredglassesboy](https://instagram.com/bigredglassesboy)
