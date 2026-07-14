@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDG Fashion Research Sea</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#080808;overflow:hidden;width:100vw;height:100vh;font-family:'SF Mono','JetBrains Mono',monospace;}
+#c{position:fixed;inset:0;width:100%;height:100%;}
+
+/* ── HUD ── */
+#hud{
+  position:fixed;bottom:76px;left:24px;z-index:20;
+  display:flex;flex-direction:column;gap:6px;
+  pointer-events:none;
+}
+#hud-title{
+  font-size:9px;letter-spacing:.3em;text-transform:uppercase;
+  color:rgba(255,255,255,0.25);
+}
+#hud-count{
+  font-size:11px;color:rgba(255,60,172,0.8);
+  letter-spacing:.05em;min-height:14px;transition:color .3s;
+}
+#hud-state{font-size:9px;color:rgba(255,255,255,0.18);}
+
+/* ── SEARCH ── */
+#search-wrap{
+  position:fixed;top:20px;left:50%;transform:translateX(-50%);
+  z-index:20;display:flex;align-items:center;gap:0;
+  background:rgba(8,8,8,0.75);border:1px solid rgba(255,255,255,0.1);
+  border-radius:6px;backdrop-filter:blur(16px);
+  overflow:hidden;
+}
+#search-input{
+  background:none;border:none;outline:none;
+  padding:9px 16px;font-size:12px;color:#e0e0e0;
+  font-family:'SF Mono','JetBrains Mono',monospace;
+  width:280px;letter-spacing:.03em;
+}
+#search-input::placeholder{color:rgba(255,255,255,0.2);}
+#search-clear{
+  background:none;border:none;color:rgba(255,60,172,0.6);
+  padding:0 12px;cursor:pointer;font-size:14px;line-height:1;
+  display:none;transition:color .2s;
+}
+#search-clear:hover{color:rgba(255,60,172,1);}
+#search-count{
+  padding:0 14px 0 0;font-size:10px;
+  color:rgba(255,60,172,0.7);white-space:nowrap;
+  min-width:60px;text-align:right;
+}
+
+/* ── SDG BUTTONS ── */
+#sdg-bar{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  z-index:20;display:flex;gap:5px;align-items:flex-end;
+  pointer-events:all;
+}
+.sdg-btn{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  cursor:pointer;transition:transform .15s;position:relative;
+}
+.sdg-btn:hover{transform:translateY(-5px);}
+.sdg-btn:hover .sdg-tooltip{opacity:1;transform:translateX(-50%) translateY(0);}
+.sdg-swatch{
+  width:28px;height:28px;border-radius:4px;
+  border:2px solid transparent;
+  transition:all .2s;
+  opacity:0.3;
+}
+.sdg-btn:hover .sdg-swatch{ opacity:0.7; }
+.sdg-btn.on .sdg-swatch{
+  opacity:1;
+  border-color:rgba(255,255,255,0.75);
+  box-shadow:0 0 14px var(--sdg-c), 0 0 32px var(--sdg-c);
+}
+.sdg-id{
+  font-size:8px;letter-spacing:.04em;
+  color:rgba(255,255,255,0.18);transition:color .2s;
+  font-family:'SF Mono','JetBrains Mono',monospace;
+  line-height:1;
+}
+.sdg-btn:hover .sdg-id{ color:rgba(255,255,255,0.6); }
+.sdg-btn.on .sdg-id{ color:rgba(255,255,255,0.95);font-weight:700; }
+.sdg-tooltip{
+  position:absolute;bottom:calc(100% + 8px);left:50%;
+  transform:translateX(-50%) translateY(5px);
+  background:rgba(8,8,8,0.94);border:1px solid rgba(255,255,255,0.1);
+  border-radius:4px;padding:5px 10px;white-space:nowrap;
+  font-size:9px;color:rgba(255,255,255,0.75);letter-spacing:.04em;
+  pointer-events:none;opacity:0;
+  transition:opacity .15s,transform .15s;
+  backdrop-filter:blur(12px);
+  font-family:'SF Mono','JetBrains Mono',monospace;
+}
+
+/* ── SLIDER DRAWER ── */
+#drawer-toggle{
+  position:fixed;top:20px;right:20px;z-index:30;
+  background:rgba(8,8,8,0.75);border:1px solid rgba(255,255,255,0.1);
+  color:rgba(255,255,255,0.35);padding:8px 14px;
+  font-family:'SF Mono','JetBrains Mono',monospace;font-size:9px;
+  letter-spacing:.12em;text-transform:uppercase;
+  border-radius:4px;cursor:pointer;transition:all .2s;
+  backdrop-filter:blur(8px);user-select:none;
+}
+#drawer-toggle:hover{border-color:rgba(255,255,255,0.25);color:rgba(255,255,255,0.65);}
+#drawer-toggle.open{border-color:rgba(255,60,172,0.5);color:rgba(255,60,172,0.8);}
+
+#drawer{
+  position:fixed;top:0;right:0;z-index:25;
+  width:260px;height:100vh;
+  background:rgba(10,10,10,0.96);
+  border-left:1px solid rgba(255,255,255,0.08);
+  backdrop-filter:blur(20px);
+  display:flex;flex-direction:column;
+  transform:translateX(100%);
+  transition:transform .3s cubic-bezier(.4,0,.2,1);
+  overflow:hidden;
+}
+#drawer.open{transform:translateX(0);}
+
+#drawer-head{
+  padding:20px 18px 14px;
+  border-bottom:1px solid rgba(255,255,255,0.07);
+  flex-shrink:0;
+}
+#drawer-head .eyebrow{
+  font-size:9px;letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(255,255,255,0.2);margin-bottom:5px;
+}
+#drawer-head h2{
+  font-size:13px;font-weight:700;color:#e8e8e8;letter-spacing:-.1px;
+}
+#drawer-head p{
+  font-size:9px;color:rgba(255,255,255,0.2);margin-top:3px;line-height:1.5;
+}
+
+#drawer-warn{
+  padding:6px 18px;font-size:9px;
+  color:transparent;transition:color .25s;letter-spacing:.04em;flex-shrink:0;
+}
+#drawer-warn.over{color:rgba(255,100,80,0.8);}
+#drawer-warn.ok{color:rgba(255,60,172,0.7);}
+
+#drawer-sliders{
+  flex:1;overflow-y:auto;padding:4px 0 12px;
+  scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.06) transparent;
+}
+.sl-row{
+  display:flex;align-items:center;gap:8px;
+  padding:5px 18px;transition:background .12s;
+}
+.sl-row:hover{background:rgba(255,255,255,0.025);}
+.sl-pip{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.sl-num{
+  font-size:9px;color:rgba(255,255,255,0.25);
+  width:16px;flex-shrink:0;font-weight:700;
+}
+.sl-track{
+  flex:1;-webkit-appearance:none;appearance:none;
+  height:2px;border-radius:2px;outline:none;cursor:pointer;
+  background:rgba(255,255,255,0.1);
+}
+.sl-track::-webkit-slider-thumb{
+  -webkit-appearance:none;width:11px;height:11px;
+  border-radius:50%;cursor:pointer;
+  transition:transform .1s;background:#fff;
+}
+.sl-track::-webkit-slider-thumb:hover{transform:scale(1.5);}
+.sl-track::-moz-range-thumb{
+  width:11px;height:11px;border-radius:50%;
+  background:#fff;cursor:pointer;border:none;
+}
+.sl-pct{
+  font-size:9px;color:rgba(255,255,255,0.2);
+  width:28px;text-align:right;flex-shrink:0;transition:color .2s;
+}
+.sl-pct.hi{color:rgba(255,60,172,0.8);}
+
+#drawer-reset{
+  margin:10px 18px 18px;padding:8px;
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+  border-radius:4px;color:rgba(255,255,255,0.3);
+  font-family:'SF Mono','JetBrains Mono',monospace;font-size:9px;
+  letter-spacing:.1em;text-transform:uppercase;cursor:pointer;
+  transition:all .2s;flex-shrink:0;
+}
+#drawer-reset:hover{border-color:rgba(255,60,172,0.4);color:rgba(255,60,172,0.7);}
+
+#cam-btn{
+  position:fixed;bottom:72px;right:20px;z-index:20;
+  background:rgba(8,8,8,0.75);border:1px solid rgba(255,255,255,0.1);
+  color:rgba(255,255,255,0.3);padding:8px 16px;
+  font-family:'SF Mono','JetBrains Mono',monospace;font-size:9px;
+  letter-spacing:.1em;text-transform:uppercase;
+  border-radius:4px;cursor:pointer;transition:all .2s;
+  backdrop-filter:blur(8px);
+}
+#cam-btn:hover{border-color:rgba(255,255,255,0.25);color:rgba(255,255,255,0.6);}
+#cam-btn.live{border-color:rgba(255,60,172,0.5);color:rgba(255,60,172,0.8);}
+
+/* ── CAM PREVIEW ── */
+#cam-wrap{
+  position:fixed;bottom:112px;right:20px;z-index:20;
+  width:120px;height:80px;border-radius:4px;overflow:hidden;
+  border:1px solid rgba(255,255,255,0.08);display:none;
+}
+#cam-wrap.show{display:block;}
+#cam-video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1);opacity:.6;}
+#pose-canvas{position:absolute;inset:0;width:100%;height:100%;}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<!-- Search bar top-centre -->
+<div id="search-wrap">
+  <input id="search-input" type="text" placeholder="search fashion research…" autocomplete="off" spellcheck="false">
+  <button id="search-clear">×</button>
+  <div id="search-count"></div>
+</div>
+
+<!-- SDG buttons bottom-centre -->
+<div id="sdg-bar"></div>
+
+<!-- Bottom-left HUD -->
+<div id="hud">
+  <div id="hud-title">SDG Fashion Research Sea · UEL</div>
+  <div id="hud-count"></div>
+  <div id="hud-state">move mouse · or enable webcam</div>
+</div>
+
+<!-- SDG distribution drawer -->
+<button id="drawer-toggle">⊞ Distribution</button>
+<div id="drawer">
+  <div id="drawer-head">
+    <div class="eyebrow">SDG Distribution</div>
+    <h2>Adjust the sea</h2>
+    <p>Set how many projects per goal.<br>Total is normalised to 500.</p>
+  </div>
+  <div id="drawer-warn"></div>
+  <div id="drawer-sliders"></div>
+  <button id="drawer-reset">Reset to equal</button>
+</div>
+
+<!-- Webcam -->
+<button id="cam-btn">⬤ webcam</button>
+<div id="cam-wrap">
+  <video id="cam-video" autoplay muted playsinline></video>
+  <canvas id="pose-canvas"></canvas>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// SDG DATA
+// ═══════════════════════════════════════════════
+const SDGS=[
+  {id:1, name:"No Poverty",                                  color:"#E5243B"},
+  {id:2, name:"Zero Hunger",                                  color:"#DDA63A"},
+  {id:3, name:"Good Health and Well-Being",                   color:"#4C9F38"},
+  {id:4, name:"Quality Education",                            color:"#C5192D"},
+  {id:5, name:"Gender Equality",                              color:"#FF3A21"},
+  {id:6, name:"Clean Water and Sanitation",                   color:"#26BDE2"},
+  {id:7, name:"Affordable and Clean Energy",                  color:"#FCC30B"},
+  {id:8, name:"Decent Work and Economic Growth",              color:"#A21942"},
+  {id:9, name:"Industry, Innovation and Infrastructure",      color:"#FD6925"},
+  {id:10,name:"Reduced Inequalities",                         color:"#DD1367"},
+  {id:11,name:"Sustainable Cities and Communities",           color:"#FD9D24"},
+  {id:12,name:"Responsible Consumption and Production",       color:"#BF8B2E"},
+  {id:13,name:"Climate Action",                               color:"#3F7E44"},
+  {id:14,name:"Life Below Water",                             color:"#0A97D9"},
+  {id:15,name:"Life on Land",                                 color:"#56C02B"},
+  {id:16,name:"Peace, Justice and Strong Institutions",       color:"#00689D"},
+  {id:17,name:"Partnerships for the Goals",                   color:"#19486A"},
+];
+
+const TEMPLATES=[
+  {title:"Biodegradable fibre innovation from agricultural crop waste",               dept:"Fashion & Textiles",    kw:["textiles","fibres","biodegradable","materials","waste","circular"],         sdgs:[12,9,2]},
+  {title:"Natural dye extraction from invasive plant species",                        dept:"Fashion & Textiles",    kw:["dyes","natural","colour","plant-based","textiles","ecology"],              sdgs:[12,15,9]},
+  {title:"Mycelium-based leather alternatives for luxury goods",                      dept:"Fashion & Textiles",    kw:["mycelium","leather","biomaterials","luxury","innovation"],                  sdgs:[12,9,3]},
+  {title:"Recycled ocean plastic fibre for performance sportswear",                   dept:"Fashion & Textiles",    kw:["ocean","plastic","recycled","sportswear","fibres","marine"],               sdgs:[14,12,9]},
+  {title:"Hemp and nettle blends as low-impact cotton substitutes",                   dept:"Fashion & Textiles",    kw:["hemp","natural fibres","textiles","low impact","cultivation"],             sdgs:[12,15,2]},
+  {title:"Waterless dyeing technologies for denim manufacturing",                     dept:"Fashion & Textiles",    kw:["denim","dyeing","water","manufacturing","innovation","process"],           sdgs:[6,12,9]},
+  {title:"Thermal regulation in wearable textiles for climate adaptation",            dept:"Fashion & Textiles",    kw:["wearable","thermal","climate","textiles","technology","comfort"],          sdgs:[13,3,9]},
+  {title:"Upcycling deadstock fabric through community maker networks",               dept:"Fashion & Textiles",    kw:["upcycling","deadstock","community","circular","waste","makers"],           sdgs:[12,11,8]},
+  {title:"Carbon footprint mapping across polyester textile supply chains",           dept:"Fashion & Textiles",    kw:["carbon","polyester","supply chain","footprint","manufacturing"],           sdgs:[13,12,9]},
+  {title:"Regenerative cotton farming in sub-Saharan smallholder communities",       dept:"Fashion & Textiles",    kw:["cotton","regenerative","farming","community","Africa","livelihoods"],      sdgs:[2,1,15]},
+  {title:"Decolonising fashion archives: indigenous textile heritage and ownership",  dept:"Cultural Studies",      kw:["decolonial","indigenous","heritage","archive","culture","identity"],        sdgs:[16,10,4]},
+  {title:"South Asian embroidery traditions and artisan economic empowerment",        dept:"Cultural Studies",      kw:["embroidery","craft","artisan","South Asia","culture","income"],            sdgs:[8,10,11]},
+  {title:"West African kente weaving: cultural IP and global fashion trade",          dept:"Cultural Studies",      kw:["kente","weaving","Africa","cultural heritage","trade","IP"],               sdgs:[16,10,17]},
+  {title:"Dress codes, gender identity, and inclusion in UK secondary schools",       dept:"Cultural Studies",      kw:["dress","gender","identity","inclusion","youth","school"],                  sdgs:[5,4,10]},
+  {title:"Japanese boro textile repair as a model for slow fashion culture",          dept:"Cultural Studies",      kw:["boro","Japan","repair","slow fashion","culture","craft"],                  sdgs:[12,11,4]},
+  {title:"Andean textile communities: preserving technique against fast fashion",     dept:"Cultural Studies",      kw:["Andean","weaving","indigenous","heritage","fast fashion","community"],      sdgs:[10,12,16]},
+  {title:"Cultural appropriation in runway fashion: ethical engagement frameworks",   dept:"Cultural Studies",      kw:["cultural appropriation","runway","ethics","identity","representation"],     sdgs:[16,10,5]},
+  {title:"Diaspora dressing: identity formation through fashion in East London",      dept:"Cultural Studies",      kw:["diaspora","identity","East London","community","fashion","belonging"],      sdgs:[10,11,5]},
+  {title:"Modest fashion markets and Muslim women's representation in retail",        dept:"Cultural Studies",      kw:["modest fashion","Muslim","representation","retail","identity","inclusion"], sdgs:[5,10,8]},
+  {title:"Queer dress histories and the politics of visibility in Britain",           dept:"Cultural Studies",      kw:["queer","dress","history","visibility","identity","culture"],               sdgs:[5,10,16]},
+  {title:"Circular business models for independent UK fashion labels",                dept:"Fashion Business",      kw:["circular","business","independent","fashion","UK","model"],                sdgs:[12,8,9]},
+  {title:"Extended producer responsibility and textile waste legislation",            dept:"Fashion Business",      kw:["legislation","textile waste","policy","circular","regulation"],            sdgs:[12,16,17]},
+  {title:"Rental and resale platforms and their effect on garment lifespans",         dept:"Fashion Business",      kw:["rental","resale","secondhand","circular","consumption","platform"],        sdgs:[12,8,10]},
+  {title:"Greenwashing in fashion marketing: consumer perception and regulation",     dept:"Fashion Business",      kw:["greenwashing","marketing","sustainability","consumer","regulation"],        sdgs:[12,16,10]},
+  {title:"Life cycle assessment of a luxury handbag from hide to shelf",             dept:"Fashion Business",      kw:["life cycle","luxury","leather","handbag","footprint","assessment"],        sdgs:[12,13,9]},
+  {title:"Secondhand clothing markets and poverty alleviation in East Africa",        dept:"Fashion Business",      kw:["secondhand","Africa","poverty","trade","consumption","livelihoods"],       sdgs:[1,10,12]},
+  {title:"Fashion waste valorisation through community textile sorting hubs",         dept:"Fashion Business",      kw:["waste","sorting","circular","community","valorisation","textiles"],        sdgs:[12,11,8]},
+  {title:"Repair culture and the right-to-repair movement in fashion",               dept:"Fashion Business",      kw:["repair","circular","culture","policy","consumption","longevity"],          sdgs:[12,9,8]},
+  {title:"Garment worker wages and living standards in Bangladesh export zones",      dept:"Fashion & Society",     kw:["garment workers","wages","Bangladesh","labour","supply chain","poverty"],   sdgs:[8,1,10]},
+  {title:"Gender-based violence in fashion supply chains in Southeast Asia",         dept:"Fashion & Society",     kw:["gender","violence","supply chain","labour","women","Southeast Asia"],      sdgs:[5,8,16]},
+  {title:"Transparency mapping: from cotton field to shop floor",                    dept:"Fashion & Society",     kw:["transparency","supply chain","mapping","cotton","traceability","trade"],   sdgs:[12,8,17]},
+  {title:"Child labour in artisanal gem supply chains linked to fashion jewellery",  dept:"Fashion & Society",     kw:["child labour","gems","jewellery","supply chain","rights","trade"],         sdgs:[8,16,1]},
+  {title:"Living wage certification and its uptake among UK fashion retailers",      dept:"Fashion & Society",     kw:["living wage","certification","retail","labour","UK","workers"],            sdgs:[8,10,1]},
+  {title:"Migrant labour in Italian luxury leather goods manufacturing",             dept:"Fashion & Society",     kw:["migrant","labour","luxury","leather","Italy","manufacturing"],             sdgs:[8,10,16]},
+  {title:"Digital traceability tools and worker voice in garment factories",         dept:"Fashion & Society",     kw:["traceability","digital","workers","factories","voice","rights"],           sdgs:[8,9,16]},
+  {title:"AI-generated fashion design and the future of creative authorship",        dept:"Fashion Technology",    kw:["AI","design","generative","creative","authorship","innovation"],           sdgs:[9,4,8]},
+  {title:"3D body scanning for inclusive sizing and reduced sample waste",            dept:"Fashion Technology",    kw:["3D scanning","sizing","inclusion","waste","digital","body"],               sdgs:[12,9,10]},
+  {title:"Digital fashion and virtual garments in the metaverse economy",            dept:"Fashion Technology",    kw:["digital fashion","virtual","metaverse","economy","innovation"],            sdgs:[9,8,12]},
+  {title:"Blockchain provenance tracking for luxury authentication",                 dept:"Fashion Technology",    kw:["blockchain","provenance","luxury","authentication","traceability"],        sdgs:[12,9,16]},
+  {title:"Smart textiles for health monitoring in elderly care garments",            dept:"Fashion Technology",    kw:["smart textiles","health","wearable","elderly","monitoring","care"],        sdgs:[3,9,11]},
+  {title:"E-waste in fast fashion: electronic components in wearable tech",          dept:"Fashion Technology",    kw:["e-waste","wearable","electronics","fast fashion","waste","technology"],    sdgs:[12,9,3]},
+  {title:"Biofabrication of fermented silk as a carbon-neutral textile",             dept:"Fashion Technology",    kw:["biofabrication","silk","fermented","carbon neutral","materials"],          sdgs:[9,12,13]},
+  {title:"Fashion education and decolonial pedagogy in UK art schools",              dept:"Fashion Education",     kw:["education","decolonial","pedagogy","art school","curriculum","diversity"],  sdgs:[4,10,16]},
+  {title:"Industry mentorship and social mobility in fashion careers",               dept:"Fashion Education",     kw:["mentorship","social mobility","careers","fashion","access","education"],   sdgs:[4,8,10]},
+  {title:"Neurodiversity and creative practice in fashion design studios",           dept:"Fashion Education",     kw:["neurodiversity","design","creative","studio","inclusion","practice"],      sdgs:[4,10,3]},
+  {title:"Fashion journalism, representation, and the body image crisis",            dept:"Fashion Education",     kw:["journalism","representation","body image","media","identity","wellbeing"],  sdgs:[3,5,10]},
+  {title:"Craft skill preservation and knowledge transfer in tailoring",             dept:"Fashion Education",     kw:["craft","tailoring","skill","heritage","knowledge","intergenerational"],    sdgs:[4,8,11]},
+  {title:"Microfibre pollution from synthetic garment washing cycles",               dept:"Environmental Fashion", kw:["microfibre","pollution","synthetic","washing","ocean","textiles"],         sdgs:[14,12,6]},
+  {title:"Fashion industry water consumption and river pollution in South Asia",     dept:"Environmental Fashion", kw:["water","pollution","South Asia","rivers","manufacturing","environment"],   sdgs:[6,12,14]},
+  {title:"Fashion brands and scope 3 emissions disclosure frameworks",               dept:"Environmental Fashion", kw:["emissions","carbon","disclosure","brand","climate","sustainability"],      sdgs:[13,12,9]},
+];
+
+// Keywords kept for internal search matching only — no chip UI
+const CHIP_KW=[];
+
+// ═══════════════════════════════════════════════
+// CANVAS
+// ═══════════════════════════════════════════════
+const canvas=document.getElementById('c');
+const ctx=canvas.getContext('2d');
+let W=0,H=0;
+
+function resize(){
+  W=canvas.width=window.innerWidth;
+  H=canvas.height=window.innerHeight;
+}
+resize();
+window.addEventListener('resize',resize);
+
+function hexRgb(h){return[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];}
+
+// ═══════════════════════════════════════════════
+// PROJECTS
+// ═══════════════════════════════════════════════
+const TOTAL=500;
+let sdgWeights=new Array(17).fill(1/17); // equal by default
+let allProjects=[];
+
+function generateProjects(){
+  allProjects=[];
+  // Convert weights to exact counts that sum to TOTAL
+  const raw=sdgWeights.map(w=>w*TOTAL);
+  const counts=raw.map(Math.floor);
+  let remainder=TOTAL-counts.reduce((a,b)=>a+b,0);
+  // Distribute remainder to the SDGs with the largest fractional parts
+  const order=[...raw.keys()].sort((a,b)=>(raw[b]%1)-(raw[a]%1));
+  for(let i=0;i<remainder;i++) counts[order[i]]++;
+
+  SDGS.forEach((sdg,si)=>{
+    const n=counts[si];
+    const pool=TEMPLATES.filter(t=>t.sdgs.includes(si+1));
+    for(let i=0;i<n;i++){
+      const tpl=pool.length?pool[i%pool.length]:TEMPLATES[i%TEMPLATES.length];
+      const sfx=i>0?` ·${i+1}`:'';
+      allProjects.push({
+        id:allProjects.length,
+        title:tpl.title+sfx,
+        dept:tpl.dept,
+        kw:[...tpl.kw],
+        sdgs:tpl.sdgs.map(s=>s-1),
+        color:sdg.color,
+        rgb:hexRgb(sdg.color),
+        sdgName:sdg.name,
+      });
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════
+// PARTICLE CLASS
+// ═══════════════════════════════════════════════
+class Dot{
+  constructor(proj,i){
+    this.proj=proj;
+    this.id=i;
+    // Home position — scattered across full canvas
+    this.hx=50+Math.random()*(W-100);
+    this.hy=80+Math.random()*(H-140);
+    // Current position starts at home
+    this.x=this.hx;
+    this.y=this.hy;
+    this.vx=0;this.vy=0;
+    this.phase=Math.random()*Math.PI*2;
+    this.floatR=0.3+Math.random()*0.4; // subtle idle float radius
+    this.floatSpeed=0.0004+Math.random()*0.0003;
+    this.baseR=1.8+Math.random()*2.8;
+    this.alpha=0.12+Math.random()*0.18;
+    this.tAlpha=this.alpha;
+    this.dispR=this.baseR;
+    this.tR=this.baseR;
+    this.active=false;
+    this.attracted=false;
+    // Floating label state
+    this.labelAlpha=0;
+    this.tLabelAlpha=0;
+    this.labelY=0; // offset float for label
+  }
+
+  // Recalculate home if canvas resized
+  resetHome(){
+    this.hx=50+Math.random()*(W-100);
+    this.hy=80+Math.random()*(H-140);
+    this.x=this.hx;this.y=this.hy;
+    this.vx=0;this.vy=0;
+  }
+
+  update(now,attractors,repellers){
+    // Idle float
+    const floatX=Math.sin(now*this.floatSpeed+this.phase)*this.floatR;
+    const floatY=Math.cos(now*this.floatSpeed*0.7+this.phase)*this.floatR*0.6;
+    const targetX=this.hx+floatX;
+    const targetY=this.hy+floatY;
+
+    // Spring back to home
+    const springK=0.018;
+    this.vx+=(targetX-this.x)*springK;
+    this.vy+=(targetY-this.y)*springK;
+
+    // ── ATTRACTORS (wrists) ──
+    this.attracted=false;
+    for(const att of attractors){
+      const dx=att.x-this.x, dy=att.y-this.y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      const range=att.range||180;
+      if(dist<range&&dist>1){
+        const force=(1-dist/range)*att.strength;
+        this.vx+=dx/dist*force;
+        this.vy+=dy/dist*force;
+        this.attracted=true;
+      }
+    }
+
+    // ── REPELLERS (body silhouette) ──
+    for(const rep of repellers){
+      const dx=this.x-rep.x, dy=this.y-rep.y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      const range=rep.range||60;
+      if(dist<range&&dist>1){
+        const force=(1-dist/range)*rep.strength;
+        this.vx+=dx/dist*force;
+        this.vy+=dy/dist*force;
+      }
+    }
+
+    // Damping
+    this.vx*=0.88;
+    this.vy*=0.88;
+    this.x+=this.vx;
+    this.y+=this.vy;
+
+    // Lerp visual state
+    this.alpha+=(this.tAlpha-this.alpha)*0.07;
+    this.dispR+=(this.tR-this.dispR)*0.09;
+    this.labelAlpha+=(this.tLabelAlpha-this.labelAlpha)*0.08;
+
+    // Pulse for active
+    const pulse=this.active?(Math.sin(now*.0028+this.phase)*.3+.7):1;
+    this._drawR=this.dispR*pulse;
+  }
+
+  draw(ctx,now){
+    const r=this._drawR||this.dispR;
+    const a=Math.min(1,this.alpha);
+    if(a<0.006||r<0.1)return;
+    const[R,G,B]=this.proj.rgb;
+
+    // Glow halo (active or attracted)
+    if(this.active||this.attracted){
+      const hradius=r*(this.attracted?7:5);
+      const gr=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,hradius);
+      gr.addColorStop(0,`rgba(${R},${G},${B},${a*.55})`);
+      gr.addColorStop(1,`rgba(${R},${G},${B},0)`);
+      ctx.fillStyle=gr;
+      ctx.beginPath();ctx.arc(this.x,this.y,hradius,0,Math.PI*2);ctx.fill();
+    }
+
+    // Core dot
+    ctx.fillStyle=`rgba(${R},${G},${B},${a})`;
+    ctx.beginPath();ctx.arc(this.x,this.y,r,0,Math.PI*2);ctx.fill();
+
+    // Bright centre
+    if(a>0.15){
+      ctx.fillStyle=`rgba(255,255,255,${a*.85})`;
+      ctx.beginPath();ctx.arc(this.x,this.y,r*.28,0,Math.PI*2);ctx.fill();
+    }
+
+    // Floating label
+    if(this.labelAlpha>0.02){
+      this.labelY=this.y-r*2-8;
+      drawLabel(ctx,this.proj,this.x,this.labelY,this.labelAlpha,this.proj.rgb);
+    }
+  }
+}
+
+function drawLabel(ctx,proj,x,y,alpha,rgb){
+  const[R,G,B]=rgb;
+  const title=proj.title.replace(/\s*·\d+$/,'');
+  const short=title.length>42?title.slice(0,42)+'…':title;
+
+  ctx.save();
+  ctx.globalAlpha=alpha;
+
+  // Measure
+  ctx.font='bold 10px "SF Mono","JetBrains Mono",monospace';
+  const tw=ctx.measureText(short).width;
+  const pw=tw+20, ph=42;
+  let lx=Math.max(8,Math.min(W-pw-8,x-pw/2));
+  let ly=Math.max(8,y-ph);
+
+  // Panel
+  ctx.fillStyle='rgba(8,8,8,0.88)';
+  ctx.strokeStyle=`rgba(${R},${G},${B},0.5)`;
+  ctx.lineWidth=1;
+  ctx.beginPath();
+  ctx.roundRect(lx,ly,pw,ph,4);
+  ctx.fill();ctx.stroke();
+
+  // Title
+  ctx.fillStyle=`rgba(255,255,255,0.92)`;
+  ctx.font='bold 10px "SF Mono","JetBrains Mono",monospace';
+  ctx.fillText(short,lx+10,ly+14);
+
+  // Dept
+  ctx.fillStyle=`rgba(${R},${G},${B},0.8)`;
+  ctx.font='8px "SF Mono","JetBrains Mono",monospace';
+  ctx.fillText(proj.dept+' · SDG '+proj.sdgs.map(s=>SDGS[s].id).join(', '),lx+10,ly+30);
+
+  ctx.restore();
+}
+
+// ═══════════════════════════════════════════════
+// SEARCH & FILTER
+// ═══════════════════════════════════════════════
+let query='';
+let activeChips=new Set();
+let matchedIds=new Set();
+let searching=false;
+let particles=[];
+
+function buildParticles(){
+  // Preserve positions if rebuilding
+  if(particles.length===allProjects.length){
+    particles.forEach((p,i)=>{
+      p.proj=allProjects[i];
+    });
+  } else {
+    particles=allProjects.map((p,i)=>new Dot(p,i));
+  }
+}
+
+function syncSearch(){
+  const q=query.toLowerCase().trim();
+  const chips=[...activeChips].map(c=>c.toLowerCase());
+  searching=q.length>0||chips.length>0;
+  matchedIds.clear();
+
+  if(!searching){
+    particles.forEach(p=>{
+      p.active=false;
+      p.tAlpha=0.10+Math.random()*.15;
+      p.tR=p.baseR;
+      p.tLabelAlpha=0;
+    });
+    document.getElementById('search-count').textContent='';
+    document.getElementById('hud-count').textContent='';
+    document.getElementById('search-clear').style.display='none';
+    return;
+  }
+
+  const tokens=q?q.split(/\s+/).filter(Boolean):[];
+  // SDG buttons set keys like "sdg-1"…"sdg-17"
+  const sdgFilters=[...activeChips]
+    .filter(k=>k.startsWith('sdg-'))
+    .map(k=>parseInt(k.slice(4)));
+  const kwFilters=[...activeChips]
+    .filter(k=>!k.startsWith('sdg-'))
+    .map(k=>k.toLowerCase());
+
+  allProjects.forEach((proj,i)=>{
+    const hay=[proj.title,proj.dept,...proj.kw].join(' ').toLowerCase();
+    const matchesText = tokens.length===0   || tokens.every(t=>hay.includes(t));
+    const matchesKw   = kwFilters.length===0 || kwFilters.every(c=>hay.includes(c));
+    // proj.sdgs are 0-indexed; SDG ids are 1-indexed
+    const matchesSDG  = sdgFilters.length===0 || proj.sdgs.some(s=>sdgFilters.includes(s+1));
+    const hit = matchesText && matchesKw && matchesSDG;
+    if(hit)matchedIds.add(proj.id);
+    const p=particles[i];if(!p)return;
+    if(hit){p.active=true;p.tAlpha=0.95;p.tR=p.baseR*2.4;}
+    else   {p.active=false;p.tAlpha=0.012;p.tR=p.baseR*.4;p.tLabelAlpha=0;}
+  });
+
+  const n=matchedIds.size;
+  document.getElementById('search-count').textContent=n?n+' matched':'no match';
+  document.getElementById('hud-count').textContent=n?n+' projects surfaced':'';
+  document.getElementById('search-clear').style.display=n||q?'block':'none';
+}
+
+// ── Input
+document.getElementById('search-input').addEventListener('input',e=>{
+  query=e.target.value;syncSearch();
+});
+document.getElementById('search-clear').addEventListener('click',()=>{
+  query='';
+  document.getElementById('search-input').value='';
+  activeChips.clear();
+  document.querySelectorAll('.sdg-btn').forEach(b=>b.classList.remove('on'));
+  syncSearch();
+});
+
+// ── SDG Buttons
+function buildSDGButtons(){
+  const bar=document.getElementById('sdg-bar');
+  SDGS.forEach((sdg,i)=>{
+    const btn=document.createElement('div');
+    btn.className='sdg-btn';
+    btn.id='sdg-btn-'+i;
+    btn.style.setProperty('--sdg-c', sdg.color);
+
+    const swatch=document.createElement('div');
+    swatch.className='sdg-swatch';
+    swatch.style.background=sdg.color;
+
+    const num=document.createElement('div');
+    num.className='sdg-id';
+    num.textContent=String(sdg.id).padStart(2,'0');
+
+    const tip=document.createElement('div');
+    tip.className='sdg-tooltip';
+    tip.textContent='SDG '+sdg.id+' · '+sdg.name;
+
+    btn.append(swatch,num,tip);
+    btn.addEventListener('click',()=>{
+      const key='sdg-'+sdg.id;
+      if(activeChips.has(key)){
+        activeChips.delete(key);
+        btn.classList.remove('on');
+      } else {
+        activeChips.add(key);
+        btn.classList.add('on');
+      }
+      syncSearch();
+    });
+    bar.appendChild(btn);
+  });
+}
+
+// ═══════════════════════════════════════════════
+// BODY TRACKING STATE
+// ═══════════════════════════════════════════════
+// Attractors = wrists
+// Repellers  = body skeleton joints (silhouette approximation)
+let attractors=[];
+let repellers=[];
+let mouseX=W/2,mouseY=H/2;
+let demoT=0;
+let bodyActive=false;
+
+// Mouse fallback — single wrist-like attractor
+canvas.addEventListener('mousemove',e=>{
+  mouseX=e.clientX;mouseY=e.clientY;
+  if(!webcamOn){
+    bodyActive=true;
+    attractors=[{x:mouseX,y:mouseY,range:200,strength:0.055}];
+    repellers=[];
+  }
+  handleHover(e.clientX,e.clientY);
+});
+canvas.addEventListener('mouseleave',()=>{
+  if(!webcamOn){bodyActive=false;attractors=[];repellers=[];}
+  clearHover();
+});
+
+// ── Label hover (proximity on canvas)
+let nearestDot=null;
+function handleHover(mx,my){
+  let best=null,bestD=40;
+  // Only check active dots when searching, all dots otherwise
+  for(const p of particles){
+    if(searching&&!p.active)continue;
+    const d=Math.hypot(p.x-mx,p.y-my);
+    if(d<bestD){bestD=d;best=p;}
+  }
+  if(nearestDot&&nearestDot!==best) nearestDot.tLabelAlpha=0;
+  nearestDot=best;
+  if(best) best.tLabelAlpha=1;
+}
+function clearHover(){
+  if(nearestDot){nearestDot.tLabelAlpha=0;nearestDot=null;}
+}
+
+// ═══════════════════════════════════════════════
+// WEBCAM + MEDIAPIPE POSE
+// ═══════════════════════════════════════════════
+let webcamOn=false;
+let mediaStream=null;
+let poseJoints=null;
+
+const camBtn   =document.getElementById('cam-btn');
+const camWrap  =document.getElementById('cam-wrap');
+const camVideo =document.getElementById('cam-video');
+const poseC    =document.getElementById('pose-canvas');
+const poseCtx  =poseC.getContext('2d');
+const hudState =document.getElementById('hud-state');
+
+camBtn.addEventListener('click',()=>webcamOn?stopCam():startCam());
+
+async function startCam(){
+  try{
+    mediaStream=await navigator.mediaDevices.getUserMedia({video:{width:640,height:480},audio:false});
+    camVideo.srcObject=mediaStream;
+    camWrap.classList.add('show');
+    webcamOn=true;
+    camBtn.classList.add('live');
+    camBtn.textContent='⬤ webcam on';
+    hudState.textContent='loading pose model…';
+    tryLoadPose();
+  }catch(e){
+    hudState.textContent='camera blocked';
+  }
+}
+
+function stopCam(){
+  if(mediaStream)mediaStream.getTracks().forEach(t=>t.stop());
+  mediaStream=null;
+  camWrap.classList.remove('show');
+  webcamOn=false;poseJoints=null;bodyActive=false;
+  attractors=[];repellers=[];
+  camBtn.classList.remove('live');
+  camBtn.textContent='⬤ webcam';
+  hudState.textContent='move mouse · or enable webcam';
+}
+
+function tryLoadPose(){
+  const s=document.createElement('script');
+  s.src='https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5.1675469404/pose.js';
+  s.crossOrigin='anonymous';
+  s.onload=()=>{
+    const s2=document.createElement('script');
+    s2.src='https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3.1675466862/camera_utils.js';
+    s2.crossOrigin='anonymous';
+    s2.onload=initPose;
+    s2.onerror=()=>fallbackCam('no CDN — using demo pose');
+    document.head.appendChild(s2);
+  };
+  s.onerror=()=>fallbackCam('no CDN — using demo pose');
+  document.head.appendChild(s);
+}
+
+function fallbackCam(msg){
+  hudState.textContent=msg;
+  // Run demo body in webcam mode (animate joints from mouse)
+  (function tick(){
+    if(!webcamOn)return;
+    updateDemoBody();
+    drawPoseOverlay();
+    requestAnimationFrame(tick);
+  })();
+}
+
+function updateDemoBody(){
+  // Simulated joints following mouse with arm swing
+  const arm=Math.sin(demoT*1.8)*0.12;
+  const nx=mouseX/W, ny=mouseY/H;
+  const jts={
+    lWr:{x:mouseX+(arm+ .18)*W*.5, y:mouseY+.08*H},
+    rWr:{x:mouseX-(arm+ .18)*W*.5, y:mouseY+.08*H},
+    lSh:{x:mouseX+.08*W*.5,  y:mouseY-.22*H},
+    rSh:{x:mouseX-.08*W*.5,  y:mouseY-.22*H},
+    lHi:{x:mouseX+.06*W*.5,  y:mouseY+.02*H},
+    rHi:{x:mouseX-.06*W*.5,  y:mouseY+.02*H},
+    lKn:{x:mouseX+.07*W*.5,  y:mouseY+.20*H},
+    rKn:{x:mouseX-.07*W*.5,  y:mouseY+.20*H},
+    lAn:{x:mouseX+.07*W*.5,  y:mouseY+.40*H},
+    rAn:{x:mouseX-.07*W*.5,  y:mouseY+.40*H},
+    nose:{x:mouseX,           y:mouseY-.38*H},
+  };
+  applyJoints(jts);
+}
+
+function initPose(){
+  try{
+    const pose=new window.Pose({
+      locateFile:f=>`https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5.1675469404/${f}`
+    });
+    pose.setOptions({modelComplexity:0,smoothLandmarks:true,minDetectionConfidence:0.55,minTrackingConfidence:0.55});
+    pose.onResults(onPoseResults);
+    const cam=new window.Camera(camVideo,{
+      onFrame:async()=>{await pose.send({image:camVideo});},width:640,height:480
+    });
+    cam.start();
+    hudState.textContent='pose tracking active';
+  }catch(e){fallbackCam('pose init failed');}
+}
+
+function onPoseResults(results){
+  if(!results.poseLandmarks){
+    bodyActive=false;attractors=[];repellers=[];
+    poseCtx.clearRect(0,0,poseC.width,poseC.height);
+    return;
+  }
+  const lm=results.poseLandmarks;
+  // Scale normalised coords to canvas size
+  const sc=(j)=>({x:lm[j].x*W, y:lm[j].y*H});
+  const jts={
+    nose:sc(0),
+    lSh:sc(11),rSh:sc(12),
+    lEl:sc(13),rEl:sc(14),
+    lWr:sc(15),rWr:sc(16),
+    lHi:sc(23),rHi:sc(24),
+    lKn:sc(25),rKn:sc(26),
+    lAn:sc(27),rAn:sc(28),
+  };
+  applyJoints(jts);
+  drawPoseOverlay();
+}
+
+function applyJoints(jts){
+  bodyActive=true;
+  // Attractors: both wrists with strong pull
+  attractors=[
+    {x:jts.lWr.x, y:jts.lWr.y, range:220, strength:0.07},
+    {x:jts.rWr.x, y:jts.rWr.y, range:220, strength:0.07},
+  ];
+  // Repellers: torso + head joints (silhouette body)
+  const repStrength=0.18;
+  const repRange=72;
+  repellers=[
+    {x:jts.nose.x, y:jts.nose.y,  range:repRange*.7, strength:repStrength},
+    {x:jts.lSh.x,  y:jts.lSh.y,  range:repRange,     strength:repStrength},
+    {x:jts.rSh.x,  y:jts.rSh.y,  range:repRange,     strength:repStrength},
+    {x:jts.lHi.x,  y:jts.lHi.y,  range:repRange,     strength:repStrength},
+    {x:jts.rHi.x,  y:jts.rHi.y,  range:repRange,     strength:repStrength},
+    {x:jts.lKn.x,  y:jts.lKn.y,  range:repRange*.8,  strength:repStrength*.7},
+    {x:jts.rKn.x,  y:jts.rKn.y,  range:repRange*.8,  strength:repStrength*.7},
+    // Spine midpoints
+    {x:(jts.lSh.x+jts.rSh.x)/2, y:(jts.lSh.y+jts.rSh.y)/2, range:repRange*1.1, strength:repStrength},
+    {x:(jts.lHi.x+jts.rHi.x)/2, y:(jts.lHi.y+jts.rHi.y)/2, range:repRange,     strength:repStrength},
+  ];
+  poseJoints=jts;
+}
+
+function drawPoseOverlay(){
+  poseC.width=camWrap.clientWidth;
+  poseC.height=camWrap.clientHeight;
+  poseCtx.clearRect(0,0,poseC.width,poseC.height);
+  if(!poseJoints)return;
+
+  // Scale full-canvas joints down to preview size
+  const sx=poseC.width/W, sy=poseC.height/H;
+  const pt=j=>({x:poseJoints[j].x*sx, y:poseJoints[j].y*sy});
+
+  const links=[
+    ['nose','lSh'],['nose','rSh'],['lSh','rSh'],
+    ['lSh','lEl'],['lEl','lWr'],['rSh','rEl'],['rEl','rWr'],
+    ['lSh','lHi'],['rSh','rHi'],['lHi','rHi'],
+    ['lHi','lKn'],['lKn','lAn'],['rHi','rKn'],['rKn','rAn'],
+  ];
+
+  poseCtx.strokeStyle='rgba(255,60,172,0.7)';poseCtx.lineWidth=1;
+  links.forEach(([a,b])=>{
+    const pa=pt(a),pb=pt(b);
+    poseCtx.beginPath();poseCtx.moveTo(pa.x,pa.y);poseCtx.lineTo(pb.x,pb.y);poseCtx.stroke();
+  });
+  Object.keys(poseJoints).forEach(k=>{
+    const p=pt(k);
+    poseCtx.fillStyle='rgba(255,60,172,0.9)';
+    poseCtx.beginPath();poseCtx.arc(p.x,p.y,2,0,Math.PI*2);poseCtx.fill();
+  });
+}
+
+// ═══════════════════════════════════════════════
+// BACKGROUND DRAW
+// ═══════════════════════════════════════════════
+function drawBackground(){
+  // Deep space fade
+  ctx.fillStyle='#080808';
+  ctx.fillRect(0,0,W,H);
+
+  // Subtle radial glow from centre
+  const cg=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.max(W,H)*.65);
+  cg.addColorStop(0,'rgba(20,14,28,0.6)');
+  cg.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=cg;ctx.fillRect(0,0,W,H);
+
+  // Pink atmosphere when searching
+  if(searching&&matchedIds.size>0){
+    const ag=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,W*.6);
+    ag.addColorStop(0,'rgba(255,60,172,0.04)');
+    ag.addColorStop(1,'rgba(255,60,172,0)');
+    ctx.fillStyle=ag;ctx.fillRect(0,0,W,H);
+  }
+
+  // Wrist attractor glow (full canvas)
+  for(const att of attractors){
+    const ag2=ctx.createRadialGradient(att.x,att.y,0,att.x,att.y,att.range*1.2);
+    ag2.addColorStop(0,'rgba(255,60,172,0.06)');
+    ag2.addColorStop(1,'rgba(255,60,172,0)');
+    ctx.fillStyle=ag2;ctx.fillRect(0,0,W,H);
+  }
+}
+
+function drawVignette(){
+  const g=ctx.createRadialGradient(W/2,H/2,H*.25,W/2,H/2,H*.85);
+  g.addColorStop(0,'rgba(0,0,0,0)');
+  g.addColorStop(1,'rgba(8,8,8,0.75)');
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+}
+
+// ═══════════════════════════════════════════════
+// RENDER LOOP
+// ═══════════════════════════════════════════════
+let frameN=0;
+
+function loop(now){
+  frameN++;
+  demoT=now*.001;
+
+  // Demo body in fallback cam mode
+  if(webcamOn&&!poseJoints&&bodyActive===false){
+    // waiting for CDN — body not yet active
+  } else if(!webcamOn&&bodyActive){
+    // mouse mode — attractors already set in mousemove
+  }
+
+  drawBackground();
+
+  // Sort back-to-front by y (loose — every 4 frames)
+  // For flat sea no depth needed, just draw all
+  for(const p of particles){
+    p.update(now,attractors,repellers);
+    p.draw(ctx,now);
+  }
+
+  drawVignette();
+
+  requestAnimationFrame(loop);
+}
+
+// ═══════════════════════════════════════════════
+// SDG DISTRIBUTION DRAWER
+// ═══════════════════════════════════════════════
+const drawerToggle=document.getElementById('drawer-toggle');
+const drawer=document.getElementById('drawer');
+
+drawerToggle.addEventListener('click',()=>{
+  const open=drawer.classList.toggle('open');
+  drawerToggle.classList.toggle('open',open);
+  drawerToggle.textContent=open?'✕ Close':'⊞ Distribution';
+});
+
+function buildSliders(){
+  const wrap=document.getElementById('drawer-sliders');
+  wrap.innerHTML='';
+  const initPct=Math.round(100/17);
+  SDGS.forEach((sdg,i)=>{
+    const row=document.createElement('div');
+    row.className='sl-row';
+
+    const pip=document.createElement('div');
+    pip.className='sl-pip';
+    pip.style.background=sdg.color;
+
+    const num=document.createElement('div');
+    num.className='sl-num';
+    num.textContent=String(sdg.id).padStart(2,'0');
+
+    const sl=document.createElement('input');
+    sl.type='range';
+    sl.className='sl-track';
+    sl.id='sl'+i;
+    sl.min=0; sl.max=100; sl.value=initPct; sl.step=1;
+    sl.style.accentColor=sdg.color;
+
+    const pct=document.createElement('div');
+    pct.className='sl-pct';
+    pct.id='slpct'+i;
+    pct.textContent=initPct+'%';
+
+    sl.addEventListener('input',()=>{
+      pct.textContent=sl.value+'%';
+      pct.className=parseInt(sl.value)>0?'sl-pct hi':'sl-pct';
+      rebuildFromSliders();
+    });
+
+    row.append(pip,num,sl,pct);
+    wrap.appendChild(row);
+  });
+}
+
+function getSliderValues(){
+  return SDGS.map((_,i)=>{
+    const el=document.getElementById('sl'+i);
+    return el?parseInt(el.value):Math.round(100/17);
+  });
+}
+
+function rebuildFromSliders(){
+  const vals=getSliderValues();
+  const total=vals.reduce((a,b)=>a+b,0);
+  const warn=document.getElementById('drawer-warn');
+
+  if(total===0){
+    warn.textContent='All zero — nothing to show';
+    warn.className='over';
+    return;
+  }
+
+  // Normalise to weights
+  sdgWeights=vals.map(v=>v/total);
+
+  if(total>100){
+    warn.textContent=total+'% — normalised to 100%';
+    warn.className='over';
+  } else if(total<100){
+    warn.textContent=total+'% total — rest auto-filled';
+    warn.className='ok';
+  } else {
+    warn.textContent='100% ✓';
+    warn.className='ok';
+  }
+
+  // Rebuild sea and re-apply any active search
+  generateProjects();
+  buildParticles();
+  syncSearch();
+
+  // Update HUD count
+  document.getElementById('hud-count').textContent=allProjects.length+' projects in the sea';
+}
+
+document.getElementById('drawer-reset').addEventListener('click',()=>{
+  const initPct=Math.round(100/17);
+  SDGS.forEach((_,i)=>{
+    const sl=document.getElementById('sl'+i);
+    const pct=document.getElementById('slpct'+i);
+    if(sl){ sl.value=initPct; }
+    if(pct){ pct.textContent=initPct+'%'; pct.className='sl-pct'; }
+  });
+  sdgWeights=new Array(17).fill(1/17);
+  document.getElementById('drawer-warn').textContent='';
+  document.getElementById('drawer-warn').className='';
+  generateProjects();
+  buildParticles();
+  syncSearch();
+  document.getElementById('hud-count').textContent=allProjects.length+' projects in the sea';
+});
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+generateProjects();
+buildParticles();
+buildSDGButtons();
+buildSliders();
+syncSearch();
+document.getElementById('hud-count').textContent=allProjects.length+' projects in the sea';
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
