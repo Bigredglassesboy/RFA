@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SDG Research Room — Installation Concepts</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#0a0a0a;font-family:'SF Mono','JetBrains Mono',monospace;color:#ccc;overflow-x:hidden;}
+
+.page-header{
+  padding:40px 48px 32px;
+  border-bottom:1px solid #1a1a1a;
+}
+.page-header .eyebrow{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:#444;margin-bottom:8px;}
+.page-header h1{font-size:22px;font-weight:800;color:#f0f0f0;letter-spacing:-.3px;font-family:system-ui;}
+.page-header p{font-size:11px;color:#555;margin-top:4px;line-height:1.6;}
+
+.section{padding:48px;border-bottom:1px solid #111;}
+.section-label{
+  font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:#444;
+  margin-bottom:8px;
+}
+.section-title{font-size:16px;font-weight:700;color:#e0e0e0;margin-bottom:4px;font-family:system-ui;}
+.section-desc{font-size:10px;color:#555;margin-bottom:24px;line-height:1.7;max-width:600px;}
+
+canvas{display:block;border-radius:8px;border:1px solid #1a1a1a;}
+
+.spec-grid{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  gap:12px;margin-top:20px;
+}
+.spec-item{
+  background:#111;border:1px solid #1a1a1a;
+  border-radius:6px;padding:12px 14px;
+}
+.spec-item .sk{font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:#444;margin-bottom:4px;}
+.spec-item .sv{font-size:11px;color:#ccc;}
+
+.mjprompt{
+  background:#0d0d0d;border:1px solid #1a1a1a;border-radius:6px;
+  padding:16px;margin-top:20px;
+}
+.mjprompt .mj-label{font-size:8px;letter-spacing:.2em;color:rgba(255,60,172,0.6);text-transform:uppercase;margin-bottom:8px;}
+.mjprompt .mj-text{font-size:10px;color:#888;line-height:1.7;user-select:all;cursor:text;}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="eyebrow">UEL · SDG Fashion Research Room · Installation Design</div>
+  <h1>Room Concept Renders</h1>
+  <p>4× short-throw projectors · 2× Azure Kinect · 500 particle research sea · floor + wall display</p>
+</div>
+
+<!-- VIEW 1: WIDE SHOT -->
+<div class="section">
+  <div class="section-label">Concept 01</div>
+  <div class="section-title">Wide Shot — Full Room, Idle State</div>
+  <div class="section-desc">No visitors. The particle sea drifts gently across the floor. Wall display shows full SDG distribution chart. Kinect sensors mounted at ceiling corners. Projectors throw overlapping blended tiles.</div>
+  <canvas id="c1" width="1200" height="600"></canvas>
+
+  <div class="spec-grid">
+    <div class="spec-item"><div class="sk">Room size</div><div class="sv">8m × 6m</div></div>
+    <div class="spec-item"><div class="sk">Projectors</div><div class="sv">4× Epson EB-775F short-throw</div></div>
+    <div class="spec-item"><div class="sk">Tracking</div><div class="sv">2× Azure Kinect, ceiling mount</div></div>
+    <div class="spec-item"><div class="sk">Floor res</div><div class="sv">4× 1920×1200, edge-blended</div></div>
+    <div class="spec-item"><div class="sk">Wall display</div><div class="sv">1× 4K, back wall 4m wide</div></div>
+    <div class="spec-item"><div class="sk">Particle count</div><div class="sv">500 research projects</div></div>
+  </div>
+
+  <div class="mjprompt">
+    <div class="mj-label">Midjourney Prompt — Shot 01</div>
+    <div class="mj-text">Architectural wide shot interior of a dark immersive installation room, 8 by 6 metres, matte black walls and floor, four short-throw projectors mounted on ceiling corners casting overlapping light, floor covered in a glowing particle sea of tiny coloured dots in UN SDG colours red orange green blue yellow magenta, drifting slowly, back wall showing a large vertical bar chart in SDG colours with project titles, two Azure Kinect sensors visible mounted at ceiling, no people, ambient light only from projections, photorealistic, cinematic, 8k, shot on Sony A7R V, 24mm lens, deep focus --ar 2:1 --style raw --v 6</div>
+  </div>
+</div>
+
+<!-- VIEW 2: VISITOR INTERACTION -->
+<div class="section">
+  <div class="section-label">Concept 02</div>
+  <div class="section-title">Visitor Interaction — Body Displacing the Sea</div>
+  <div class="section-desc">A visitor stands in the sea. The Kinect skeleton parting particles around their silhouette. Particles cluster toward their raised hand. Project info card floats near an attracted particle cluster. SDG 12 (Responsible Consumption) dominant — warm amber glow.</div>
+  <canvas id="c2" width="1200" height="600"></canvas>
+
+  <div class="mjprompt">
+    <div class="mj-label">Midjourney Prompt — Shot 02</div>
+    <div class="mj-text">Interior of dark immersive digital art installation, single person standing in the centre of a glowing particle sea projected onto the floor, particles in UN SDG colours parting and scattering around their body silhouette like water displacement, warm amber and magenta glowing particles attracted to their outstretched hand, a small floating label card glowing near their hand showing research project text, skeleton tracking glow lines faintly visible, back wall lit with coloured data visualisation, cinematic photography, volumetric light, dramatic atmosphere, moody dark environment, photorealistic, 8k, shot on Sony A7R V --ar 2:1 --style raw --v 6</div>
+  </div>
+</div>
+
+<!-- VIEW 3: SEARCH ACTIVE -->
+<div class="section">
+  <div class="section-label">Concept 03</div>
+  <div class="section-title">Search State — "Textiles" Query Active</div>
+  <div class="section-desc">Visitor at the search panel. The majority of the sea is dimmed near-black. A constellation of bright amber and brown particles (SDG 12, 8, 9) pulses and glows where textile research projects are. Floating cards show matched project titles. Wall display shows filtered bar chart.</div>
+  <canvas id="c3" width="1200" height="600"></canvas>
+
+  <div class="mjprompt">
+    <div class="mj-label">Midjourney Prompt — Shot 03</div>
+    <div class="mj-text">Dark immersive installation room, floor projection showing a sparse constellation of glowing amber and dark gold particles clustered in one area, the rest of the floor near black with barely visible dim particles, bright glowing dots pulsing softly representing filtered search results for fashion textile research, small floating holographic text cards above the bright particles showing research project titles, back wall bar chart highlighted in amber tones, two people in background observing, atmospheric moody lighting, cinematic, photorealistic, 8k --ar 2:1 --style raw --v 6</div>
+  </div>
+</div>
+
+<!-- VIEW 4: OVERHEAD TECHNICAL -->
+<div class="section">
+  <div class="section-label">Concept 04</div>
+  <div class="section-title">Technical Overhead — Equipment Layout</div>
+  <div class="section-desc">Clean technical overhead showing the room footprint: 4 projector coverage zones with edge-blend overlap areas, 2 Kinect depth-sensor fields of view, search panel position, wall display, visitor flow arrows, and cable routing.</div>
+  <canvas id="c4" width="1200" height="600"></canvas>
+
+  <div class="mjprompt">
+    <div class="mj-label">Midjourney Prompt — Shot 04</div>
+    <div class="mj-text">Clean technical architectural overhead floor plan illustration of an immersive installation room, dark background, showing four projector throw zones as overlapping trapezoid shapes with soft glowing edges labelled P1 P2 P3 P4, two Kinect sensor depth field-of-view cones from ceiling corners labelled K1 K2, a search terminal position, back wall display area, visitor circulation arrows, minimal label annotations, technical drawing style, blueprint aesthetic with subtle colour coding, flat design, high resolution --ar 2:1 --v 6</div>
+  </div>
+</div>
+
+<script>
+const SDG_COLORS=[
+  "#E5243B","#DDA63A","#4C9F38","#C5192D","#FF3A21",
+  "#26BDE2","#FCC30B","#A21942","#FD6925","#DD1367",
+  "#FD9D24","#BF8B2E","#3F7E44","#0A97D9","#56C02B",
+  "#00689D","#19486A"
+];
+
+function hexRgb(h){return[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];}
+
+// ── SHARED PARTICLE SYSTEM ──────────────────────────────────────
+class Particle{
+  constructor(W,H,col,active=true,alpha=null){
+    this.x=30+Math.random()*(W-60);
+    this.y=30+Math.random()*(H-60);
+    this.vx=(Math.random()-.5)*.3;
+    this.vy=(Math.random()-.5)*.15;
+    this.r=1+Math.random()*2.5;
+    this.col=col;
+    this.active=active;
+    this.phase=Math.random()*Math.PI*2;
+    this.baseAlpha=alpha!==null?alpha:(active?0.7+Math.random()*.3:0.05+Math.random()*.05);
+    this.a=this.baseAlpha;
+  }
+  update(t){
+    this.x+=this.vx;this.y+=this.vy;
+  }
+  draw(ctx,t){
+    const pulse=this.active?(Math.sin(t*.002+this.phase)*.2+.8):1;
+    const r=this.r*(this.active?pulse:1);
+    const a=this.a;
+    const[R,G,B]=hexRgb(this.col);
+    if(this.active){
+      const g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,r*5);
+      g.addColorStop(0,`rgba(${R},${G},${B},${a*.5})`);
+      g.addColorStop(1,`rgba(${R},${G},${B},0)`);
+      ctx.fillStyle=g;ctx.beginPath();ctx.arc(this.x,this.y,r*5,0,Math.PI*2);ctx.fill();
+    }
+    ctx.fillStyle=`rgba(${R},${G},${B},${a})`;
+    ctx.beginPath();ctx.arc(this.x,this.y,r,0,Math.PI*2);ctx.fill();
+    if(a>0.3){ctx.fillStyle=`rgba(255,255,255,${a*.8})`;ctx.beginPath();ctx.arc(this.x,this.y,r*.25,0,Math.PI*2);ctx.fill();}
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+// CANVAS 1 — WIDE SHOT IDLE
+// ══════════════════════════════════════════════════════════════
+(function(){
+  const cv=document.getElementById('c1');
+  const cx=cv.getContext('2d');
+  const W=cv.width,H=cv.height;
+
+  // Generate particles spread evenly across floor (bottom 55% of canvas)
+  const pts=[];
+  for(let i=0;i<320;i++){
+    const col=SDG_COLORS[Math.floor(Math.random()*17)];
+    const p=new Particle(W,H,col,true,0.35+Math.random()*.45);
+    p.y=H*.42+Math.random()*H*.54;  // floor zone
+    pts.push(p);
+  }
+
+  // Wall particles (right side)
+  const wallPts=[];
+  for(let i=0;i<80;i++){
+    const col=SDG_COLORS[Math.floor(Math.random()*17)];
+    const p=new Particle(W,H,col,true,0.5+Math.random()*.4);
+    p.x=W*.72+Math.random()*W*.25;
+    p.y=H*.05+Math.random()*H*.85;
+    wallPts.push(p);
+  }
+
+  function draw(t){
+    cx.clearRect(0,0,W,H);
+
+    // Room background
+    cx.fillStyle='#080808';cx.fillRect(0,0,W,H);
+
+    // ── PERSPECTIVE ROOM ──
+    // Floor gradient
+    const fg=cx.createLinearGradient(0,H*.4,0,H);
+    fg.addColorStop(0,'rgba(255,255,255,0.0)');
+    fg.addColorStop(1,'rgba(255,255,255,0.025)');
+    cx.fillStyle=fg;cx.fillRect(0,H*.4,W,H*.6);
+
+    // Ceiling
+    const cg=cx.createLinearGradient(0,0,0,H*.35);
+    cg.addColorStop(0,'#0e0e0e');cg.addColorStop(1,'#080808');
+    cx.fillStyle=cg;cx.fillRect(0,0,W,H*.35);
+
+    // Back wall
+    const wg=cx.createLinearGradient(W*.68,0,W,0);
+    wg.addColorStop(0,'#111');wg.addColorStop(1,'#0c0c0c');
+    cx.fillStyle=wg;cx.fillRect(W*.68,0,W*.32,H);
+
+    // Floor perspective lines
+    const vx=W*.38,vy=H*.35;
+    cx.strokeStyle='rgba(255,255,255,0.04)';cx.lineWidth=.5;
+    for(let i=0;i<=10;i++){
+      const t2=i/10;
+      const y=H*.42+t2*(H*.55);
+      const xl=vx-(vx*1.1)*t2, xr=Math.min(W*.68,vx+(vx*1.1)*t2);
+      cx.beginPath();cx.moveTo(xl,y);cx.lineTo(xr,y);cx.stroke();
+    }
+    for(let i=0;i<=6;i++){
+      const t2=i/6;
+      const bx=W*.68*t2;
+      cx.beginPath();cx.moveTo(bx,H);cx.lineTo(vx+(t2-.5)*W*.68*.4,vy);cx.stroke();
+    }
+
+    // Horizon line
+    cx.strokeStyle='rgba(255,255,255,0.06)';cx.lineWidth=1;
+    cx.beginPath();cx.moveTo(0,H*.42);cx.lineTo(W*.68,H*.42);cx.stroke();
+
+    // Wall / floor divider
+    cx.strokeStyle='rgba(255,255,255,0.06)';cx.lineWidth=1;
+    cx.beginPath();cx.moveTo(W*.68,0);cx.lineTo(W*.68,H);cx.stroke();
+
+    // ── PROJECTORS (ceiling) ──
+    const projPositions=[[W*.15,H*.08],[W*.52,H*.08],[W*.15,H*.22],[W*.52,H*.22]];
+    projPositions.forEach((pos,i)=>{
+      // Body
+      cx.fillStyle='#1a1a1a';
+      cx.beginPath();cx.roundRect(pos[0]-14,pos[1]-6,28,12,3);cx.fill();
+      cx.strokeStyle='#333';cx.lineWidth=.5;cx.stroke();
+      // Lens
+      cx.fillStyle='#222';cx.beginPath();cx.arc(pos[0],pos[1],4,0,Math.PI*2);cx.fill();
+      cx.fillStyle='rgba(255,255,255,0.15)';cx.beginPath();cx.arc(pos[0],pos[1],2,0,Math.PI*2);cx.fill();
+      // Label
+      cx.fillStyle='rgba(255,255,255,0.2)';cx.font='7px SF Mono,monospace';
+      cx.textAlign='center';cx.fillText('P'+(i+1),pos[0],pos[1]+18);
+      // Throw cone (faint)
+      cx.strokeStyle='rgba(255,255,255,0.025)';cx.lineWidth=40;
+      cx.beginPath();cx.moveTo(pos[0],pos[1]+6);cx.lineTo(W*.34,H*.85);cx.stroke();
+    });
+
+    // ── KINECT SENSORS ──
+    const kinectPos=[[W*.06,H*.06],[W*.62,H*.06]];
+    kinectPos.forEach((pos,i)=>{
+      cx.fillStyle='#1c1c1c';
+      cx.beginPath();cx.roundRect(pos[0]-16,pos[1]-4,32,8,2);cx.fill();
+      cx.strokeStyle='#2a2a2a';cx.lineWidth=.5;cx.stroke();
+      // IR dots
+      ['#22f','#f22'].forEach((c,j)=>{
+        cx.fillStyle=c+'55';cx.beginPath();cx.arc(pos[0]-8+j*8,pos[1],2,0,Math.PI*2);cx.fill();
+        cx.fillStyle=c;cx.beginPath();cx.arc(pos[0]-8+j*8,pos[1],1,0,Math.PI*2);cx.fill();
+      });
+      cx.fillStyle='rgba(255,255,255,0.2)';cx.font='7px SF Mono,monospace';
+      cx.textAlign='center';cx.fillText('K'+(i+1),pos[0],pos[1]+16);
+      // FOV cone
+      const fovAngle=0.7;
+      cx.fillStyle='rgba(100,150,255,0.03)';
+      cx.beginPath();cx.moveTo(pos[0],pos[1]+4);
+      cx.lineTo(pos[0]-Math.tan(fovAngle)*H*.4,H*.9);
+      cx.lineTo(pos[0]+Math.tan(fovAngle)*H*.4,H*.9);
+      cx.closePath();cx.fill();
+    });
+
+    // ── FLOOR PARTICLES ──
+    pts.forEach(p=>{p.draw(cx,t);});
+
+    // ── WALL DISPLAY ──
+    // Bar chart
+    const bx=W*.7,by=H*.08,bw=W*.27,bh=H*.7;
+    SDG_COLORS.forEach((col,i)=>{
+      const barH=(0.2+Math.random()*.8)*bh*.85;
+      const x=bx+(i/17)*bw;
+      const[R,G,B]=hexRgb(col);
+      cx.fillStyle=`rgba(${R},${G},${B},0.15)`;cx.fillRect(x,by,bw/17-.5,bh*.85);
+      cx.fillStyle=`rgba(${R},${G},${B},0.6)`;cx.fillRect(x,by+bh*.85-barH,bw/17-.5,barH);
+    });
+    wallPts.forEach(p=>{p.draw(cx,t);});
+
+    // Wall label
+    cx.fillStyle='rgba(255,255,255,0.12)';cx.font='8px SF Mono,monospace';
+    cx.textAlign='left';cx.fillText('RESEARCH SEA · ALL 500 PROJECTS',W*.7,H*.96);
+
+    // Search panel (small)
+    cx.fillStyle='rgba(255,255,255,0.04)';cx.strokeStyle='rgba(255,255,255,0.08)';cx.lineWidth=.5;
+    cx.beginPath();cx.roundRect(W*.2,H*.45,W*.16,H*.06,4);cx.fill();cx.stroke();
+    cx.fillStyle='rgba(255,255,255,0.2)';cx.font='7px SF Mono,monospace';
+    cx.textAlign='left';cx.fillText('search fashion research…',W*.21,H*.49);
+
+    // SDG bar bottom
+    SDG_COLORS.forEach((col,i)=>{
+      const bx2=W*.05+i*(W*.6/17);
+      const[R,G,B]=hexRgb(col);
+      cx.fillStyle=`rgba(${R},${G},${B},0.35)`;
+      cx.beginPath();cx.roundRect(bx2,H*.93,W*.6/17-3,12,2);cx.fill();
+    });
+
+    // Vignette
+    const vg=cx.createRadialGradient(W/2,H/2,H*.1,W/2,H/2,H*.7);
+    vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(0,0,0,0.7)');
+    cx.fillStyle=vg;cx.fillRect(0,0,W,H);
+
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+})();
+
+// ══════════════════════════════════════════════════════════════
+// CANVAS 2 — VISITOR INTERACTION
+// ══════════════════════════════════════════════════════════════
+(function(){
+  const cv=document.getElementById('c2');
+  const cx=cv.getContext('2d');
+  const W=cv.width,H=cv.height;
+
+  const pts=[];
+  const personX=W*.42, personY=H*.55;
+  const handX=W*.58, handY=H*.38;
+
+  for(let i=0;i<400;i++){
+    const col=SDG_COLORS[Math.floor(Math.random()*17)];
+    let x=60+Math.random()*(W*.65-60);
+    let y=H*.38+Math.random()*H*.58;
+    // Push away from person silhouette
+    const dx=x-personX,dy=y-personY;
+    const dist=Math.sqrt(dx*dx+dy*dy);
+    let active=true;
+    let alpha=0.3+Math.random()*.3;
+    if(dist<90){x+=dx/dist*100;y+=dy/dist*100;active=false;alpha=0.06;}
+    const p=new Particle(W,H,col,active,alpha);
+    p.x=x;p.y=y;
+    // Pull toward hand if close
+    const hdx=handX-x,hdy=handY-y;
+    const hdist=Math.sqrt(hdx*hdx+hdy*hdy);
+    if(hdist<160){
+      p.x=x+hdx*.4*(1-hdist/160);
+      p.y=y+hdy*.4*(1-hdist/160);
+      p.active=true;
+      p.a=0.8+Math.random()*.2;
+      p.r=2+Math.random()*3;
+    }
+    pts.push(p);
+  }
+
+  function drawSkeleton(cx,t){
+    const pulse=Math.sin(t*.002)*.1+.9;
+    const joints={
+      head:[personX,personY-H*.28],
+      lSh:[personX+W*.04,personY-H*.18],rSh:[personX-W*.04,personY-H*.18],
+      lEl:[personX+W*.07,personY-H*.06],rEl:[personX-W*.07,personY-H*.06],
+      lWr:[handX,handY],rWr:[personX-W*.1,personY],
+      lHi:[personX+W*.03,personY],rHi:[personX-W*.03,personY],
+      lKn:[personX+W*.035,personY+H*.15],rKn:[personX-W*.035,personY+H*.15],
+      lAn:[personX+W*.035,personY+H*.3],rAn:[personX-W*.035,personY+H*.3],
+    };
+    const links=[['head','lSh'],['head','rSh'],['lSh','rSh'],
+      ['lSh','lEl'],['lEl','lWr'],['rSh','rEl'],['rEl','rWr'],
+      ['lSh','lHi'],['rSh','rHi'],['lHi','rHi'],
+      ['lHi','lKn'],['lKn','lAn'],['rHi','rKn'],['rKn','rAn']];
+    cx.strokeStyle=`rgba(255,60,172,${.35*pulse})`;cx.lineWidth=1;
+    links.forEach(([a,b])=>{
+      cx.beginPath();cx.moveTo(joints[a][0],joints[a][1]);
+      cx.lineTo(joints[b][0],joints[b][1]);cx.stroke();
+    });
+    Object.values(joints).forEach(([x,y])=>{
+      cx.fillStyle=`rgba(255,60,172,${.5*pulse})`;
+      cx.beginPath();cx.arc(x,y,2.5,0,Math.PI*2);cx.fill();
+    });
+    // Silhouette glow
+    const sg=cx.createRadialGradient(personX,personY-H*.05,0,personX,personY-H*.05,H*.35);
+    sg.addColorStop(0,'rgba(20,10,30,0.6)');sg.addColorStop(1,'rgba(0,0,0,0)');
+    cx.fillStyle=sg;cx.beginPath();cx.arc(personX,personY-H*.05,H*.35,0,Math.PI*2);cx.fill();
+  }
+
+  function draw(t){
+    cx.clearRect(0,0,W,H);
+    cx.fillStyle='#060608';cx.fillRect(0,0,W,H);
+
+    // Floor
+    const fg=cx.createLinearGradient(0,H*.35,0,H);
+    fg.addColorStop(0,'rgba(255,255,255,0)');fg.addColorStop(1,'rgba(255,255,255,0.018)');
+    cx.fillStyle=fg;cx.fillRect(0,H*.35,W*.66,H*.65);
+
+    // Wall
+    cx.fillStyle='#0c0c0c';cx.fillRect(W*.66,0,W*.34,H);
+    cx.strokeStyle='rgba(255,255,255,0.05)';cx.lineWidth=1;
+    cx.beginPath();cx.moveTo(W*.66,0);cx.lineTo(W*.66,H);cx.stroke();
+
+    // Hand attractor glow
+    const hg=cx.createRadialGradient(handX,handY,0,handX,handY,180);
+    hg.addColorStop(0,'rgba(255,60,172,0.15)');hg.addColorStop(1,'rgba(255,60,172,0)');
+    cx.fillStyle=hg;cx.fillRect(0,0,W,H);
+
+    // SDG 12 atmosphere (amber)
+    const ag=cx.createRadialGradient(W*.3,H*.6,0,W*.3,H*.6,W*.4);
+    ag.addColorStop(0,'rgba(191,139,46,0.08)');ag.addColorStop(1,'rgba(0,0,0,0)');
+    cx.fillStyle=ag;cx.fillRect(0,0,W,H);
+
+    pts.forEach(p=>p.draw(cx,t));
+    drawSkeleton(cx,t);
+
+    // Floating label card
+    const lx=handX+20,ly=handY-70;
+    cx.fillStyle='rgba(8,8,8,0.92)';cx.strokeStyle='rgba(191,139,46,0.6)';cx.lineWidth=1;
+    cx.beginPath();cx.roundRect(lx,ly,230,52,5);cx.fill();cx.stroke();
+    cx.fillStyle='rgba(255,255,255,0.9)';cx.font='bold 10px SF Mono,monospace';
+    cx.textAlign='left';cx.fillText('Circular economy transitions in',lx+10,ly+16);
+    cx.fillText('textile manufacturing',lx+10,ly+28);
+    cx.fillStyle='rgba(191,139,46,0.8)';cx.font='8px SF Mono,monospace';
+    cx.fillText('Fashion Business · SDG 12, 9, 8',lx+10,ly+44);
+    // Connector line
+    cx.strokeStyle='rgba(191,139,46,0.3)';cx.lineWidth=.5;
+    cx.beginPath();cx.moveTo(handX,handY);cx.lineTo(lx,ly+52);cx.stroke();
+
+    // Wall display — filtered
+    SDG_COLORS.forEach((col,i)=>{
+      const bx=W*.69+(i/17)*W*.28;
+      const highlight=i===11||i===8||i===7;
+      const bh=highlight?(0.5+Math.random()*.4)*H*.7:(0.05+Math.random()*.1)*H*.7;
+      const[R,G,B]=hexRgb(col);
+      cx.fillStyle=`rgba(${R},${G},${B},${highlight?.75:.1})`;
+      cx.fillRect(bx,H*.1+H*.75-bh,W*.28/17-.5,bh);
+    });
+
+    // Vignette
+    const vg=cx.createRadialGradient(W*.4,H*.5,H*.05,W*.4,H*.5,H*.75);
+    vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(0,0,0,0.75)');
+    cx.fillStyle=vg;cx.fillRect(0,0,W,H);
+
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+})();
+
+// ══════════════════════════════════════════════════════════════
+// CANVAS 3 — SEARCH ACTIVE "TEXTILES"
+// ══════════════════════════════════════════════════════════════
+(function(){
+  const cv=document.getElementById('c3');
+  const cx=cv.getContext('2d');
+  const W=cv.width,H=cv.height;
+
+  // Textile SDGs: 12(BF8B2E), 9(FD6925), 8(A21942), 13(3F7E44)
+  const textileSdgs=[11,8,7,12]; // indices
+  const pts=[];
+  for(let i=0;i<400;i++){
+    const si=Math.floor(Math.random()*17);
+    const col=SDG_COLORS[si];
+    const isTextile=textileSdgs.includes(si);
+    const p=new Particle(W*.65,H,col,isTextile, isTextile?0.8+Math.random()*.2:0.03);
+    p.y=H*.38+Math.random()*H*.58;
+    if(isTextile){ p.r=2+Math.random()*3; }
+    pts.push(p);
+  }
+
+  function draw(t){
+    cx.clearRect(0,0,W,H);
+    cx.fillStyle='#050507';cx.fillRect(0,0,W,H);
+
+    // Floor surface
+    const fg=cx.createLinearGradient(0,H*.35,0,H);
+    fg.addColorStop(0,'rgba(255,255,255,0)');fg.addColorStop(1,'rgba(255,255,255,0.012)');
+    cx.fillStyle=fg;cx.fillRect(0,H*.35,W*.65,H*.65);
+    cx.fillStyle='#0a0a0a';cx.fillRect(W*.65,0,W*.35,H);
+
+    // Amber atmosphere where textiles are
+    const ag=cx.createRadialGradient(W*.3,H*.6,0,W*.3,H*.6,W*.35);
+    ag.addColorStop(0,'rgba(191,139,46,0.07)');ag.addColorStop(1,'rgba(0,0,0,0)');
+    cx.fillStyle=ag;cx.fillRect(0,0,W,H);
+
+    pts.forEach(p=>p.draw(cx,t));
+
+    // Search bar (active)
+    cx.fillStyle='rgba(10,10,10,0.95)';cx.strokeStyle='rgba(255,60,172,0.5)';cx.lineWidth=1;
+    cx.beginPath();cx.roundRect(W*.25,H*.08,W*.2,H*.065,5);cx.fill();cx.stroke();
+    cx.fillStyle='rgba(255,255,255,0.8)';cx.font='11px SF Mono,monospace';
+    cx.textAlign='left';cx.fillText('textiles',W*.265,H*.118);
+    cx.fillStyle='rgba(255,60,172,0.7)';cx.font='9px SF Mono,monospace';
+    cx.fillText('47 matched',W*.265,H*.135);
+
+    // Floating project cards near clusters
+    const cards=[
+      {x:W*.12,y:H*.5,title:'Waterless dyeing technologies',sub:'Fashion & Textiles · SDG 6, 12, 9',col:'#26BDE2'},
+      {x:W*.38,y:H*.72,title:'Upcycling deadstock fabric',sub:'Fashion & Textiles · SDG 12, 11, 8',col:'#BF8B2E'},
+      {x:W*.5,y:H*.45,title:'Circular economy in textiles',sub:'Fashion Business · SDG 12, 9, 8',col:'#FD6925'},
+    ];
+    cards.forEach(card=>{
+      const[R,G,B]=hexRgb(card.col);
+      cx.fillStyle='rgba(8,8,8,0.9)';cx.strokeStyle=`rgba(${R},${G},${B},0.5)`;cx.lineWidth=1;
+      cx.beginPath();cx.roundRect(card.x,card.y,220,46,4);cx.fill();cx.stroke();
+      cx.fillStyle='rgba(255,255,255,0.85)';cx.font='bold 9px SF Mono,monospace';
+      cx.textAlign='left';cx.fillText(card.title,card.x+10,card.y+14);
+      cx.fillStyle=`rgba(${R},${G},${B},.75)`;cx.font='8px SF Mono,monospace';
+      cx.fillText(card.sub,card.x+10,card.y+30);
+    });
+
+    // SDG buttons (bottom) — textiles active
+    SDG_COLORS.forEach((col,i)=>{
+      const bx=W*.04+i*(W*.58/17);
+      const[R,G,B]=hexRgb(col);
+      const active=textileSdgs.includes(i);
+      cx.fillStyle=`rgba(${R},${G},${B},${active?.9:.2})`;
+      cx.strokeStyle=active?`rgba(255,255,255,0.6)`:'transparent';cx.lineWidth=active?1:.5;
+      cx.beginPath();cx.roundRect(bx,H*.91,W*.58/17-3,18,3);cx.fill();cx.stroke();
+      if(active){
+        cx.shadowColor=col;cx.shadowBlur=8;
+        cx.fillStyle=`rgba(${R},${G},${B},0.9)`;
+        cx.beginPath();cx.roundRect(bx,H*.91,W*.58/17-3,18,3);cx.fill();
+        cx.shadowBlur=0;
+      }
+    });
+
+    // Wall — filtered
+    SDG_COLORS.forEach((col,i)=>{
+      const bx=W*.67+(i/17)*W*.3;
+      const active=textileSdgs.includes(i);
+      const bh=active?(0.4+Math.random()*.5)*H*.75:(0.02+Math.random()*.05)*H*.75;
+      const[R,G,B]=hexRgb(col);
+      cx.fillStyle=`rgba(${R},${G},${B},${active?.8:.08})`;
+      cx.fillRect(bx,H*.08+H*.75-bh,W*.3/17-.5,bh);
+    });
+    cx.fillStyle='rgba(255,60,172,0.4)';cx.font='8px SF Mono,monospace';
+    cx.textAlign='left';cx.fillText('"textiles" · 47 projects matched',W*.68,H*.96);
+
+    // Vignette
+    const vg=cx.createRadialGradient(W/2,H/2,H*.1,W/2,H/2,H*.7);
+    vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(5,5,7,0.82)');
+    cx.fillStyle=vg;cx.fillRect(0,0,W,H);
+
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+})();
+
+// ══════════════════════════════════════════════════════════════
+// CANVAS 4 — OVERHEAD TECHNICAL PLAN
+// ══════════════════════════════════════════════════════════════
+(function(){
+  const cv=document.getElementById('c4');
+  const cx=cv.getContext('2d');
+  const W=cv.width,H=cv.height;
+
+  // Room in canvas — centred, 8:6 ratio
+  const rx=120,ry=60,rw=W-240,rh=H-120;
+
+  function drawDashedRect(x,y,w,h,col){
+    cx.strokeStyle=col;cx.lineWidth=.5;cx.setLineDash([4,4]);
+    cx.beginPath();cx.rect(x,y,w,h);cx.stroke();
+    cx.setLineDash([]);
+  }
+
+  function label(text,x,y,col,size=8){
+    cx.fillStyle=col||'rgba(255,255,255,0.3)';
+    cx.font=`${size}px SF Mono,monospace`;
+    cx.textAlign='center';cx.fillText(text,x,y);
+  }
+
+  function draw(t){
+    cx.clearRect(0,0,W,H);
+    cx.fillStyle='#070709';cx.fillRect(0,0,W,H);
+
+    // Room outline
+    cx.fillStyle='rgba(255,255,255,0.02)';cx.fillRect(rx,ry,rw,rh);
+    cx.strokeStyle='rgba(255,255,255,0.15)';cx.lineWidth=1.5;cx.setLineDash([]);
+    cx.beginPath();cx.rect(rx,ry,rw,rh);cx.stroke();
+
+    // Room label
+    cx.fillStyle='rgba(255,255,255,0.08)';cx.font='10px SF Mono,monospace';
+    cx.textAlign='left';cx.fillText('INSTALLATION ROOM  8m × 6m',rx+8,ry+16);
+
+    // ── PROJECTOR ZONES ──
+    // 4 quadrants with throw cone shapes
+    const projData=[
+      {label:'P1',cx:rx+rw*.22,cy:ry+rh*.22,col:'rgba(255,200,100,0.08)',strokeCol:'rgba(255,200,100,0.35)'},
+      {label:'P2',cx:rx+rw*.78,cy:ry+rh*.22,col:'rgba(255,200,100,0.08)',strokeCol:'rgba(255,200,100,0.35)'},
+      {label:'P3',cx:rx+rw*.22,cy:ry+rh*.78,col:'rgba(255,200,100,0.08)',strokeCol:'rgba(255,200,100,0.35)'},
+      {label:'P4',cx:rx+rw*.78,cy:ry+rh*.78,col:'rgba(255,200,100,0.08)',strokeCol:'rgba(255,200,100,0.35)'},
+    ];
+    // Draw overlapping throw zones as rectangles
+    const zw=rw*.55,zh=rh*.55;
+    const zones=[
+      [rx+rw*.005, ry+rh*.005, zw, zh],
+      [rx+rw*.445, ry+rh*.005, zw, zh],
+      [rx+rw*.005, ry+rh*.445, zw, zh],
+      [rx+rw*.445, ry+rh*.445, zw, zh],
+    ];
+    // Blend zones (overlap = brighter)
+    zones.forEach(([x,y,w,h],i)=>{
+      const g=cx.createRadialGradient(x+w/2,y+h/2,0,x+w/2,y+h/2,Math.max(w,h)*.55);
+      g.addColorStop(0,'rgba(255,200,80,0.06)');g.addColorStop(1,'rgba(255,200,80,0)');
+      cx.fillStyle=g;cx.fillRect(x,y,w,h);
+      cx.strokeStyle='rgba(255,200,80,0.2)';cx.lineWidth=.5;cx.setLineDash([3,5]);
+      cx.beginPath();cx.rect(x,y,w,h);cx.stroke();cx.setLineDash([]);
+    });
+
+    // Overlap highlight (edge blend zones)
+    cx.fillStyle='rgba(255,220,120,0.05)';
+    cx.fillRect(rx+rw*.445,ry+rh*.005,rw*.115,zh); // H middle top
+    cx.fillRect(rx+rw*.445,ry+rh*.445,rw*.115,zh); // H middle bottom
+    cx.fillRect(rx+rw*.005,ry+rh*.445,zw,rh*.115); // V middle left
+    cx.fillRect(rx+rw*.445,ry+rh*.445,zw,rh*.115); // V middle right
+    cx.strokeStyle='rgba(255,220,120,0.4)';cx.lineWidth=.5;cx.setLineDash([2,3]);
+    // Centre cross (edge blend)
+    cx.beginPath();
+    cx.moveTo(rx+rw*.5,ry);cx.lineTo(rx+rw*.5,ry+rh);
+    cx.moveTo(rx,ry+rh*.5);cx.lineTo(rx+rw,ry+rh*.5);
+    cx.stroke();cx.setLineDash([]);
+    label('edge blend',rx+rw*.5,ry+rh*.5+4,'rgba(255,220,120,0.4)',7);
+
+    // Projector dots (ceiling mount positions)
+    projData.forEach(p=>{
+      cx.fillStyle='rgba(255,200,80,0.9)';cx.beginPath();cx.arc(p.cx,p.cy,6,0,Math.PI*2);cx.fill();
+      cx.fillStyle='rgba(0,0,0,0.8)';cx.beginPath();cx.arc(p.cx,p.cy,3,0,Math.PI*2);cx.fill();
+      label(p.label,p.cx,p.cy-12,'rgba(255,200,80,0.8)',8);
+    });
+
+    // ── KINECT SENSORS ──
+    const kinects=[
+      {x:rx+rw*.15,y:ry+rh*.08,label:'K1 · Azure Kinect'},
+      {x:rx+rw*.85,y:ry+rh*.08,label:'K2 · Azure Kinect'},
+    ];
+    kinects.forEach(k=>{
+      // FOV fan
+      const fanAngle=0.6;
+      const fanLen=rh*.82;
+      cx.fillStyle='rgba(100,160,255,0.04)';
+      cx.beginPath();cx.moveTo(k.x,k.y);
+      cx.lineTo(k.x-Math.tan(fanAngle)*fanLen,k.y+fanLen);
+      cx.lineTo(k.x+Math.tan(fanAngle)*fanLen,k.y+fanLen);
+      cx.closePath();cx.fill();
+      cx.strokeStyle='rgba(100,160,255,0.25)';cx.lineWidth=.5;cx.setLineDash([3,4]);
+      cx.beginPath();
+      cx.moveTo(k.x,k.y);cx.lineTo(k.x-Math.tan(fanAngle)*fanLen,k.y+fanLen);
+      cx.moveTo(k.x,k.y);cx.lineTo(k.x+Math.tan(fanAngle)*fanLen,k.y+fanLen);
+      cx.stroke();cx.setLineDash([]);
+      // Sensor dot
+      cx.fillStyle='rgba(100,160,255,0.9)';cx.beginPath();cx.arc(k.x,k.y,5,0,Math.PI*2);cx.fill();
+      cx.fillStyle='rgba(0,0,0,0.9)';cx.beginPath();cx.arc(k.x,k.y,2.5,0,Math.PI*2);cx.fill();
+      label(k.label,k.x,k.y-12,'rgba(100,160,255,0.7)',7);
+    });
+
+    // Kinect overlap (shared tracking zone)
+    cx.fillStyle='rgba(100,160,255,0.035)';
+    cx.beginPath();
+    cx.moveTo(rx+rw*.37,ry+rh*.15);cx.lineTo(rx+rw*.63,ry+rh*.15);
+    cx.lineTo(rx+rw*.7,ry+rh*.92);cx.lineTo(rx+rw*.3,ry+rh*.92);
+    cx.closePath();cx.fill();
+    cx.strokeStyle='rgba(100,160,255,0.15)';cx.lineWidth=.5;cx.setLineDash([2,4]);
+    cx.beginPath();
+    cx.moveTo(rx+rw*.37,ry+rh*.15);cx.lineTo(rx+rw*.63,ry+rh*.15);
+    cx.lineTo(rx+rw*.7,ry+rh*.92);cx.lineTo(rx+rw*.3,ry+rh*.92);cx.closePath();cx.stroke();
+    cx.setLineDash([]);
+    label('shared tracking zone',rx+rw*.5,ry+rh*.55,'rgba(100,160,255,0.25)',7);
+
+    // ── WALL DISPLAY ──
+    cx.fillStyle='rgba(255,60,172,0.06)';
+    cx.fillRect(rx+rw*.05,ry-8,rw*.9,12);
+    cx.strokeStyle='rgba(255,60,172,0.4)';cx.lineWidth=1;
+    cx.beginPath();cx.rect(rx+rw*.05,ry-8,rw*.9,12);cx.stroke();
+    label('WALL DISPLAY — 4K PROJECTION',rx+rw*.5,ry+1,'rgba(255,60,172,0.5)',7);
+
+    // ── SEARCH PANEL ──
+    cx.fillStyle='rgba(255,255,255,0.04)';cx.strokeStyle='rgba(255,255,255,0.15)';cx.lineWidth=.5;
+    cx.beginPath();cx.roundRect(rx+rw*.38,ry+rh*.42,rw*.24,rh*.16,3);cx.fill();cx.stroke();
+    label('SEARCH PANEL',rx+rw*.5,ry+rh*.52,'rgba(255,255,255,0.25)',7);
+
+    // ── VISITOR FLOW ──
+    cx.strokeStyle='rgba(255,255,255,0.08)';cx.lineWidth=1;cx.setLineDash([4,6]);
+    // Arrow: entrance → centre
+    const arrowStart=[rx+rw*.5,ry+rh+20];
+    cx.beginPath();cx.moveTo(rx+rw*.5,ry+rh*.95);cx.lineTo(rx+rw*.5,ry+rh*.62);cx.stroke();
+    cx.setLineDash([]);
+    // Arrowhead
+    cx.fillStyle='rgba(255,255,255,0.08)';
+    cx.beginPath();cx.moveTo(rx+rw*.5,ry+rh*.62);
+    cx.lineTo(rx+rw*.49,ry+rh*.65);cx.lineTo(rx+rw*.51,ry+rh*.65);cx.closePath();cx.fill();
+    label('visitor entry',rx+rw*.5,ry+rh+10,'rgba(255,255,255,0.15)',7);
+
+    // ── CABLE ROUTES ──
+    cx.strokeStyle='rgba(255,255,255,0.06)';cx.lineWidth=.5;cx.setLineDash([1,4]);
+    // Cable from each projector to wall
+    projData.forEach(p=>{
+      cx.beginPath();cx.moveTo(p.cx,p.cy);cx.lineTo(rx+2,ry+rh*.5);cx.stroke();
+    });
+    cx.setLineDash([]);
+
+    // Legend
+    const legY=ry+rh+32;
+    const items=[
+      {col:'rgba(255,200,80,0.8)', label:'Projector (P1–P4)'},
+      {col:'rgba(100,160,255,0.8)', label:'Kinect Azure (K1–K2)'},
+      {col:'rgba(255,200,80,0.3)', label:'Projection zone / edge blend'},
+      {col:'rgba(100,160,255,0.25)',label:'Tracking coverage'},
+      {col:'rgba(255,60,172,0.5)',  label:'Wall display'},
+    ];
+    items.forEach((item,i)=>{
+      const lx=rx+i*(rw/items.length);
+      cx.fillStyle=item.col;cx.beginPath();cx.arc(lx+8,legY,4,0,Math.PI*2);cx.fill();
+      cx.fillStyle='rgba(255,255,255,0.25)';cx.font='7px SF Mono,monospace';
+      cx.textAlign='left';cx.fillText(item.label,lx+16,legY+3);
+    });
+
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>
