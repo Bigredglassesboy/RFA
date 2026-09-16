@@ -109,4 +109,4 @@ All 17 goal colours are sourced from the official [UN SDG Brand Guidelines 2023]
 ## Project
 
 Built by **Pat Quinnell / BRGB Studio** · University of East London  
-[bigredglassesboy.com](https://bigredglassesboy.com) · [@Bigredglassesboy](https://instagram.com/bigredglassesboy)
+[brgb.uk](https://brgb,uk) · [@Bigredglassesboy](https://instagram.com/bigredglassesboy)
