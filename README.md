@@ -1,71 +1,72 @@
-# RFA — Regenerative Fashion Archive
-### Digital Research Room · Connected Visualiser · SDG Particle Sea
+# RFA: Regenerative Fashion Archive
 
-A live interactive research visualisation system built by [BRGB Studio](https://brgb.uk) for the University of East London. Research projects are pulled from a CKAN open data backend, colour-coded by UN Sustainable Development Goal, and rendered as a navigable particle sea — in browser and in Unreal Engine 5.
+The RFA maps fashion research by UN Sustainable Development Goal. Each research project is one dot, coloured by its SDG, and you can search and filter the whole archive in the browser or walk through it in a physical room.
 
----
+Built by [BRGB Studio](https://brgb.uk) with the University of East London. The research comes from BA and MA Fashion students, BA Game Design students, and industry and community partners.
 
 ## Pages
 
-| URL | What it is |
-|-----|-----------|
-| [`/`](https://bigredglassesboy.github.io/RFA/) | SDG Research Room — interactive particle sea, webcam body tracking, SDG filters |
-| [`/room/`](https://bigredglassesboy.github.io/RFA/room/) | Physical Room Setup — projector layout, Kinect positioning, installation guide |
-| [`/how/`](https://bigredglassesboy.github.io/RFA/how/) | Connected Visualiser — system architecture diagram |
+| Page | What's there |
+|------|--------------|
+| [`/`](https://bigredglassesboy.github.io/RFA/) | The particle sea: search, SDG filters, webcam body tracking |
+| [`/room3d/`](https://bigredglassesboy.github.io/RFA/room3d/) | A 3D model of the research room you can walk around |
+| [`/room/`](https://bigredglassesboy.github.io/RFA/room/) | Room setup notes: projectors, Kinects, installation |
+| [`/how/`](https://bigredglassesboy.github.io/RFA/how/) | How the system fits together |
 
----
+## The particle sea `/`
 
-## SDG Research Room `/`
+Every dot on screen is a research project, tagged with one or more SDGs.
 
-A full-screen interactive particle sea where every dot is a fashion research project tagged with one or more UN SDGs.
+- Move the mouse and the dots drift towards it
+- Turn on the webcam and your body pushes the dots aside, while your wrists pull them in
+- Click one of the 17 SDG buttons to show only that goal's projects
+- Type in the search bar to find projects by title, department or keyword
+- Hover over a dot to see its title, department and SDGs
+- Open **Distribution** to change how many projects sit under each goal
 
-**Interaction**
-- Move your mouse across the sea to attract particles
-- Enable the webcam — your body silhouette displaces the sea, wrists attract particle clusters
-- Click any of the 17 SDG buttons to filter by goal
-- Type in the search bar to surface matching research projects
-- Hover any particle for a floating project card — title, department, SDG tags
-- Use the **⊞ Distribution** panel to adjust how many projects appear per SDG
+Body tracking uses MediaPipe Pose, loaded from a CDN. If that fails to load, the mouse stands in for the body.
 
-**Body tracking**
-Tries to load MediaPipe Pose from CDN for real skeleton tracking. Falls back to mouse-driven demo mode if unavailable.
+The archive currently runs on placeholder projects. The live version will pull from a CKAN instance through its `package_search` API, checking for new projects every 30 seconds.
 
-**Data**
-Currently running on placeholder fashion research data. Production version connects to a CKAN open data instance via the `package_search` API, polling every 30 seconds.
+## The research room `/room3d/`
 
----
+The archive is designed to fill an 8m × 6m room. Four projectors hang in a cluster from the centre of the ceiling, one aimed at each wall, so the dots cover all four walls. A PC in the middle of the room runs the search, and a small SDG bar chart sits on the east wall.
 
-## Connected Visualiser `/how/`
+The 3D model lets you try this before it's built:
 
-An interactive diagram showing the full system architecture — from research idea through infrastructure to output channels.
+- Drag to look around, scroll or pinch to zoom
+- Switch between the **Wide**, **Visitor**, **PC**, **Dollhouse** and **Plan** views
+- Search and filter as you would on the main page. Matching dots light up and the rest fade, and the bar chart and PC screen follow along.
+- Tap the floor to move the visitor. They cast a shadow on the wall they face, the dots move out of the way of their body, and they gather around the raised hand.
+- Tap a dot to see its project
 
-Click any node to expand:
+It works best on a laptop. It loads three.js and its font online, so open it through GitHub Pages or a local server, not by double-clicking the file.
 
-- **Idea + Research & Collaboration** — the input layer
-- **Siemens / CKAN → AWS → Unreal Engine 5** — the infrastructure pipeline
-- **Shared Exhibition · Immersive Experience · AI Accessibility · Lab & Conferences** — the four output channels
+## How it fits together `/how/`
 
----
+A clickable diagram of the whole system:
 
-## Unreal Engine 5 Build
+1. A research idea plus research and collaboration
+2. Siemens CKAN, then AWS, then Unreal Engine 5
+3. Four outputs: shared exhibitions, the immersive room, AI accessibility, and labs and conferences
 
-The production installation runs in UE5 with:
+## The Unreal Engine 5 build
 
-- **C++ `AResearchRoomManager`** — HTTP polling, JSON parsing, particle sea lifecycle, search logic
-- **17 Niagara particle systems** — one per UN SDG, CPU sim, persistent dots with drift
-- **Azure Kinect (×2)** — skeleton tracking, silhouette displacement, hand attraction
-- **4× short-throw projectors** — floor particle sea via nDisplay
-- **UMG search panel** — keyword search, SDG filter buttons, floating project cards
-- **Wall display** — GPU Niagara constellation, live SDG bar chart, project title scroller
-- **CKAN backend** — datasets tagged `sdg-1` … `sdg-17`, polled via `package_search`
+The physical room is being built in UE5:
 
-Full setup guide, C++ source, Niagara spec, Blueprint event graphs, and Go Live checklist in `SDGResearchRoomUE.jsx`.
+- A C++ `AResearchRoomManager` that polls CKAN, parses the JSON, runs the particle sea and handles search
+- 17 Niagara systems, one per SDG, with persistent dots that drift
+- Two Azure Kinects for skeleton tracking. The body pushes dots aside and the hands pull them in.
+- Four projectors in the ceiling cluster, one per wall, driven through nDisplay
+- The PC station, with UMG search, SDG filter buttons and project cards
+- The SDG bar chart inset on the east wall, which updates with each search
+- CKAN datasets tagged `sdg-1` to `sdg-17`, read through `package_search`
 
----
+The setup guide, C++ source, Niagara spec and Blueprint graphs are in `SDGResearchRoomUE.jsx`.
 
-## UN SDG Colour Reference
+## SDG colours
 
-All 17 goal colours are sourced from the official [UN SDG Brand Guidelines 2023](https://www.un.org/sustainabledevelopment/).
+Goal names and colours follow the [UN SDG Brand Guidelines 2023](https://www.un.org/sustainabledevelopment/).
 
 | # | Goal | Hex |
 |---|------|-----|
@@ -87,26 +88,13 @@ All 17 goal colours are sourced from the official [UN SDG Brand Guidelines 2023]
 | 16 | Peace, Justice and Strong Institutions | `#00689D` |
 | 17 | Partnerships for the Goals | `#19486A` |
 
----
+## Built with
 
-## Tech Stack
+**Web:** plain HTML, CSS and JavaScript with no build step and one file per page. MediaPipe Pose for body tracking, Canvas 2D for the particle sea, three.js for the 3D room, hosted on GitHub Pages.
 
-**Web previs**
-- Vanilla HTML/CSS/JS — no build step, single file per page
-- MediaPipe Pose (CDN) — body tracking
-- Canvas 2D — particle physics, floor projection, atmosphere
-- GitHub Pages — hosting
+**Unreal:** UE 5.3+ with C++, Niagara, UMG and nDisplay. Azure Kinect SDK, the CKAN REST API, and AWS (EC2, S3, CloudFront, Lambda, RDS).
 
-**Unreal Engine build**
-- UE 5.3+, C++, Niagara, UMG
-- Azure Kinect SDK
-- CKAN REST API
-- AWS (EC2, S3, CloudFront, Lambda, RDS)
-- nDisplay (multi-projector output)
+## Credits
 
----
-
-## Project
-
-Built by **Pat Quinnell / BRGB Studio** · University of East London  
-[brgb.uk](https://brgb.uk) · [@Bigredglassesboy](https://instagram.com/bigredglassesboy)
+Pat Quinnell, BRGB Studio, with the University of East London.
+[brgb.uk](https://brgb.uk) · [@bigredglassesboy](https://instagram.com/bigredglassesboy)
