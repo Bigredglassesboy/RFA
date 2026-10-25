@@ -448,8 +448,8 @@ const NODES={
     icon:'⚡',eyebrow:'Infrastructure — Rendering',title:'Unreal Engine 5',
     sub:'Real-time visualisation and interaction engine',
     sections:[
-      {label:'What it does',text:'Unreal Engine 5 is the real-time rendering layer — it polls CKAN via HTTP every 30 seconds, spawns each research project as a Niagara particle in the SDG Research Room, and handles body tracking, search interaction, and wall display.'},
-      {label:'Technical stack',items:['C++ AResearchRoomManager — HTTP polling, JSON parsing, particle lifecycle','17 Niagara systems — one per UN SDG, colour-coded','Azure Kinect — body tracking, silhouette displacement, hand attraction','UMG — search panel, floating project cards, wall display','nDisplay — multi-projector output (4× short-throw projectors)']},
+      {label:'What it does',text:'Unreal Engine 5 is the real-time rendering layer — it polls CKAN via HTTP every 30 seconds, spawns each research project as a Niagara particle in the SDG Research Room, and handles body tracking, search from the PC station, and the SDG bar chart on the east wall.'},
+      {label:'Technical stack',items:['C++ AResearchRoomManager — HTTP polling, JSON parsing, particle lifecycle','17 Niagara systems — one per UN SDG, colour-coded','Azure Kinect — body tracking, silhouette displacement, hand attraction','UMG — PC search station, floating project cards, SDG bar chart','nDisplay — 4 projectors in a central ceiling cluster, one per wall']},
       {label:'Data flow',text:'CKAN API → ckan_bridge.py (optional) → HTTP GET → C++ parser → Niagara particle spawn → real-time interaction'},
       {label:'Tags',tags:['UE5','Niagara','C++','Azure Kinect','nDisplay','Real-time','Particles']},
     ]
@@ -459,7 +459,7 @@ const NODES={
     sub:'Physical co-presented shows across institutions',
     sections:[
       {label:'What it is',text:'The SDG Research Room as a travelling physical installation — presented at UEL and potentially at partner venues. Research from all contributing institutions populates the same particle sea.'},
-      {label:'Format',items:['8m × 6m dedicated room or temporary installation footprint','4× short-throw projectors — floor particle sea','2× Azure Kinect — body tracking','Wall display — live SDG bar chart + matched project scroller','Shared CKAN backend — all contributing institutions\' datasets visible simultaneously']},
+      {label:'Format',items:['8m × 6m dedicated room or temporary installation footprint','4 projectors in a central ceiling cluster — particle sea on all four walls','2× Azure Kinect — body tracking','PC search station in the middle of the room','SDG bar chart — small panel on the east wall','Shared CKAN backend — all contributing institutions\' datasets visible simultaneously']},
       {label:'The experience',text:'Visitors can search for research topics and watch matching projects surface from the sea. The physical act of walking through the archive is the experience.'},
       {label:'Tags',tags:['Installation','Physical','Projection','Kinect','Co-presented','Travelling']},
     ]
@@ -468,8 +468,8 @@ const NODES={
     icon:'🥽',eyebrow:'Output Channel 02',title:'Immersive Experience',
     sub:'XR, body tracking and real-time interaction',
     sections:[
-      {label:'What it is',text:'The full interactive version of the research room — body tracking active, search panel live, particles responding to physical presence. This is the primary output of the Unreal Engine build.'},
-      {label:'Interaction modes',items:['Body displaces particles — silhouette parts the sea','Hands attract — wrists pull clusters toward the visitor','Search panel — keyword and SDG button filtering','Proximity hover — floating project cards appear near your hand','Azure Kinect — full skeleton tracking at 30fps']},
+      {label:'What it is',text:'The full interactive version of the research room — body tracking active, PC search live, particles responding to physical presence. This is the primary output of the Unreal Engine build.'},
+      {label:'Interaction modes',items:['Body displaces particles — silhouette parts the sea','Hands attract — wrists pull clusters toward the visitor','PC search station — keyword and SDG button filtering','Proximity hover — floating project cards appear near your hand','Azure Kinect — full skeleton tracking at 30fps']},
       {label:'Future XR layer',text:'VR headset mode (Meta Quest / PSVR2) where the particle sea becomes volumetric — visitors can physically reach into 3D space and pull research projects out of the cloud.'},
       {label:'Tags',tags:['XR','Body Tracking','Kinect','Niagara','Interaction','VR','Particles']},
     ]
