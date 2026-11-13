@@ -17,13 +17,13 @@ body{background:#080808;overflow:hidden;width:100vw;height:100vh;font-family:'SF
 }
 #hud-title{
   font-size:9px;letter-spacing:.3em;text-transform:uppercase;
-  color:rgba(255,255,255,0.25);
+  color:#fff;
 }
 #hud-count{
   font-size:11px;color:rgba(255,60,172,0.8);
   letter-spacing:.05em;min-height:14px;transition:color .3s;
 }
-#hud-state{font-size:9px;color:rgba(255,255,255,0.18);}
+#hud-state{font-size:9px;color:#fff;}
 
 /* ── SEARCH ── */
 #search-wrap{
@@ -35,11 +35,11 @@ body{background:#080808;overflow:hidden;width:100vw;height:100vh;font-family:'SF
 }
 #search-input{
   background:none;border:none;outline:none;
-  padding:9px 16px;font-size:12px;color:#e0e0e0;
+  padding:9px 16px;font-size:12px;color:#fff;
   font-family:'SF Mono','JetBrains Mono',monospace;
   width:280px;letter-spacing:.03em;
 }
-#search-input::placeholder{color:rgba(255,255,255,0.2);}
+#search-input::placeholder{color:#fff;opacity:1;}
 #search-clear{
   background:none;border:none;color:rgba(255,60,172,0.6);
   padding:0 12px;cursor:pointer;font-size:14px;line-height:1;
@@ -78,18 +78,18 @@ body{background:#080808;overflow:hidden;width:100vw;height:100vh;font-family:'SF
 }
 .sdg-id{
   font-size:8px;letter-spacing:.04em;
-  color:rgba(255,255,255,0.18);transition:color .2s;
+  color:#fff;transition:color .2s;
   font-family:'SF Mono','JetBrains Mono',monospace;
   line-height:1;
 }
-.sdg-btn:hover .sdg-id{ color:rgba(255,255,255,0.6); }
-.sdg-btn.on .sdg-id{ color:rgba(255,255,255,0.95);font-weight:700; }
+.sdg-btn:hover .sdg-id{ color:#fff; }
+.sdg-btn.on .sdg-id{ color:#fff;font-weight:700; }
 .sdg-tooltip{
   position:absolute;bottom:calc(100% + 8px);left:50%;
   transform:translateX(-50%) translateY(5px);
   background:rgba(8,8,8,0.94);border:1px solid rgba(255,255,255,0.1);
   border-radius:4px;padding:5px 10px;white-space:nowrap;
-  font-size:9px;color:rgba(255,255,255,0.75);letter-spacing:.04em;
+  font-size:9px;color:#fff;letter-spacing:.04em;
   pointer-events:none;opacity:0;
   transition:opacity .15s,transform .15s;
   backdrop-filter:blur(12px);
@@ -100,13 +100,13 @@ body{background:#080808;overflow:hidden;width:100vw;height:100vh;font-family:'SF
 #drawer-toggle{
   position:fixed;top:20px;right:20px;z-index:30;
   background:rgba(8,8,8,0.75);border:1px solid rgba(255,255,255,0.1);
-  color:rgba(255,255,255,0.35);padding:8px 14px;
+  color:#fff;padding:8px 14px;
   font-family:'SF Mono','JetBrains Mono',monospace;font-size:9px;
   letter-spacing:.12em;text-transform:uppercase;
   border-radius:4px;cursor:pointer;transition:all .2s;
   backdrop-filter:blur(8px);user-select:none;
 }
-#drawer-toggle:hover{border-color:rgba(255,255,255,0.25);color:rgba(255,255,255,0.65);}
+#drawer-toggle:hover{border-color:rgba(255,255,255,0.25);color:#fff;}
 #drawer-toggle.open{border-color:rgba(255,60,172,0.5);color:rgba(255,60,172,0.8);}
 
 #drawer{
@@ -193,13 +193,13 @@ body{background:#080808;overflow:hidden;width:100vw;height:100vh;font-family:'SF
 #cam-btn{
   position:fixed;bottom:72px;right:20px;z-index:20;
   background:rgba(8,8,8,0.75);border:1px solid rgba(255,255,255,0.1);
-  color:rgba(255,255,255,0.3);padding:8px 16px;
+  color:#fff;padding:8px 16px;
   font-family:'SF Mono','JetBrains Mono',monospace;font-size:9px;
   letter-spacing:.1em;text-transform:uppercase;
   border-radius:4px;cursor:pointer;transition:all .2s;
   backdrop-filter:blur(8px);
 }
-#cam-btn:hover{border-color:rgba(255,255,255,0.25);color:rgba(255,255,255,0.6);}
+#cam-btn:hover{border-color:rgba(255,255,255,0.25);color:#fff;}
 #cam-btn.live{border-color:rgba(255,60,172,0.5);color:rgba(255,60,172,0.8);}
 
 /* ── CAM PREVIEW ── */
@@ -218,7 +218,7 @@ body{background:#080808;overflow:hidden;width:100vw;height:100vh;font-family:'SF
 
 <!-- Search bar top-centre -->
 <div id="search-wrap">
-  <input id="search-input" type="text" placeholder="search fashion research…" autocomplete="off" spellcheck="false">
+  <input id="search-input" type="text" placeholder="What are you looking for." autocomplete="off" spellcheck="false">
   <button id="search-clear">×</button>
   <div id="search-count"></div>
 </div>
@@ -536,7 +536,7 @@ function drawLabel(ctx,proj,x,y,alpha,rgb){
   ctx.fill();ctx.stroke();
 
   // Title
-  ctx.fillStyle=`rgba(255,255,255,0.92)`;
+  ctx.fillStyle='#fff';
   ctx.font='bold 10px "SF Mono","JetBrains Mono",monospace';
   ctx.fillText(short,lx+10,ly+14);
 
